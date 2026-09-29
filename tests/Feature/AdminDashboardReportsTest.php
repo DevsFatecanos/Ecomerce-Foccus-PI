@@ -108,8 +108,8 @@ class AdminDashboardReportsTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('content-type', 'text/csv; charset=UTF-8');
-        $this->assertStringContainsString('Produto ID,Nome,Categoria', $response->getContent());
-        $this->assertStringContainsString('Produto B', $response->getContent());
+        $this->assertStringContainsString('Produto B', $response->streamedContent());
+        $this->assertStringContainsString('Categoria 2', $response->streamedContent());
     }
 
     public function test_product_report_page_renders_product_rows(): void

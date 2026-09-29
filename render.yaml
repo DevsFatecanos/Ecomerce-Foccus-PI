@@ -34,11 +34,10 @@ services:
         value: "postgres"
       - key: DB_PASSWORD
         sync: false
-        value: "Virtus12@2026"
       - key: DB_SSLMODE
         value: "require"
       - key: DB_URL
-        value: "postgresql://postgres:Virtus12%402026@db.wgrqhvzrakgnvksakerd.supabase.co:5432/postgres?sslmode=require"
+        sync: false
       - key: APP_URL
         value: "https://${RENDER_EXTERNAL_HOSTNAME}"
       - key: LOG_CHANNEL
