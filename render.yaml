@@ -24,14 +24,14 @@ services:
         value: "pgsql"
       - key: DB_HOST
         sync: false
-        value: "db.wgrqhvzrakgnvksakerd.supabase.co"
+        value: "aws-1-sa-east-1.pooler.supabase.com"
       - key: DB_PORT
         value: "5432"
       - key: DB_DATABASE
         value: "postgres"
       - key: DB_USERNAME
         sync: false
-        value: "postgres"
+        value: "postgres.wgrqhvzrakgnvksakerd"
       - key: DB_PASSWORD
         sync: false
       - key: DB_SSLMODE
