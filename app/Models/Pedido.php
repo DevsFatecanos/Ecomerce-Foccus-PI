@@ -15,6 +15,10 @@ class Pedido extends Model
         'status',
         'referencia',
         'provedor',
+        'payment_id',
+        'pix_qr_code',
+        'pix_qr_code_base64',
+        'pix_expira_em',
         'total',
         'observacoes',
         'data_pagamento',
@@ -24,6 +28,7 @@ class Pedido extends Model
     protected $casts = [
         'total' => 'decimal:2',
         'data_pagamento' => 'datetime',
+        'pix_expira_em' => 'datetime',
         'email_enviado_em' => 'datetime',
     ];
 
