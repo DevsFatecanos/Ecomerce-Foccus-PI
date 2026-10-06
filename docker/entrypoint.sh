@@ -16,9 +16,10 @@ php /app/artisan route:cache
 php /app/artisan view:cache
 
 # 3. Migrações
-# Tenta rodar as migrações no banco do Supabase
+# Tenta rodar as migrações, mas NÃO derruba o container se o banco estiver indisponível.
+# Com 'set -e', uma falha aqui matava o script antes do supervisord -> nenhuma porta abria.
 echo "Rodando migrações..."
-php /app/artisan migrate --force
+php /app/artisan migrate --force || echo "Migrations failed, but continuing..."
 
 # 4. Iniciar o Supervisor
 # O parâmetro -n é obrigatório aqui para o container não fechar imediatamente

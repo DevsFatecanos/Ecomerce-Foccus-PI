@@ -5,7 +5,7 @@ services:
     dockerfilePath: ./Dockerfile
     plan: starter
     region: oregon
-    healthCheckPath: /
+    healthCheckPath: /up
     port: 8080
     envVars:
       - key: APP_NAME
@@ -36,15 +36,13 @@ services:
         sync: false
       - key: DB_SSLMODE
         value: "require"
-      - key: DB_URL
-        sync: false
       - key: APP_URL
         value: "https://${RENDER_EXTERNAL_HOSTNAME}"
       - key: LOG_CHANNEL
         value: "stack"
       - key: LOG_LEVEL
         value: "info"
-      - key: CACHE_DRIVER
+      - key: CACHE_STORE
         value: "file"
       - key: QUEUE_CONNECTION
         value: "sync"
