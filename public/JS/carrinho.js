@@ -69,6 +69,12 @@ document.documentElement.classList.add('js');
         }
 
         function initCatalogFilters() {
+            // A home (index.blade.php) traz seu proprio filtro inline e sinaliza com
+            // esta classe para evitar registro duplicado de handlers nos mesmos chips/campos.
+            if (document.documentElement.classList.contains('js-catalogo-externo')) {
+                return;
+            }
+
             const searchInput = document.getElementById('productSearch');
             const categoryFilter = document.getElementById('categoryFilter');
             const minPriceFilter = document.getElementById('minPriceFilter');

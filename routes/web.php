@@ -35,7 +35,9 @@ Route::get('/carrinho', [CarrinhoController::class, 'index'])->name('carrinho.in
 
 // Página pública de produto
 use App\Http\Controllers\PublicProdutoController;
+use App\Http\Controllers\SearchController;
 Route::get('/produtos/{produto}', [PublicProdutoController::class, 'show'])->name('produtos.show');
+Route::get('/search', SearchController::class)->name('search');
 Route::get('/api/carrinho', [CarrinhoController::class, 'getCarrinho'])->name('carrinho.get');
 Route::post('/carrinho/{produto}', [CarrinhoController::class, 'store'])->name('carrinho.add');
 Route::put('/carrinho/{produto}', [CarrinhoController::class, 'update'])->name('carrinho.update');

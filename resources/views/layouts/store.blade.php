@@ -75,26 +75,26 @@
     <!-- BARRA DE CATEGORIAS -->
     <div class="w-full fixed top-0 left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-0.5">
         <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40">
-            <div class="flex w-1/2 justify-between p-2">
+            <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
                 <p class="text-slate-600 font-bold">Compre por Categoria!</p>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="/categoria/limpeza">Limpeza</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="/categoria/higiene">Higiene</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="/categoria/mercearia">Mercearia</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="/categoria/bebidas">Bebidas</a>
-                <a class="text-red-600 hover:text-slate-600 font-bold" href="/categoria/ofertas">Ofertas</a>
+                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=limpeza#catalogo">Limpeza</a>
+                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=higiene-e-beleza#catalogo">Higiene e Beleza</a>
+                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=mercearia#catalogo">Mercearia</a>
+                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=bebida#catalogo">Bebidas</a>
+                <a class="text-red-600 hover:text-slate-900 font-bold" href="/#ofertas">Ofertas</a>
             </div>
         </section>
     </div>
 
     <!-- NAVBAR PRINCIPAL -->
-    <nav style="padding: 10px;" class="sticky top-0 z-50 border-b border-slate-700 bg-slate-800">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 pb-4 pt-7 md:px-8">
+    <nav style="padding: 6px;" class="sticky top-0 z-50 border-b border-slate-700 bg-slate-800">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pb-2 pt-4 md:px-8">
 
             <!-- Logo -->
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                    <img src="/LOGO_FOCCUS.png" class="w-36 brightness-0 invert md:w-40" alt="Logo Foccus" decoding="async">
+                    <img src="/LOGO_FOCCUS.png" class="w-24 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
                 </picture>
             </a>
 

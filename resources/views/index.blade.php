@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="scroll-smooth" lang="pt-br">
+<html class="scroll-smooth js-catalogo-externo" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -344,24 +344,27 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-------------------------------->
-    <nav style="padding: 10px;" class="glass sticky top-0 z-50 border-b border-white/10">
+    <nav style="padding: 6px;" class="glass sticky top-0 z-50 border-b border-white/10">
         <div class="w-full fixed top-0 left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-0.5"><!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
     <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40  ">
-        <div class="flex w-1/2 justify-between p-2 ">
+        <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
                 <p class="text-slate-600 font-bold" >Compre por Categoria!</p>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="">Limpeza</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="">Higiene</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="">Mercearia</a>
-                <a class="text-slate-600 hover:text-slate-600 hover:font-bold" href="">Bebidas</a>
-                <a class="text-red-600 hover:text-slate-600 font-bold"  href="">Ofertas</a>
+                @foreach($categoriaLista as $nomeCategoria)
+                    <a class="nav-categoria text-slate-600 hover:text-slate-900 hover:font-bold"
+                       href="#catalogo"
+                       data-categoria-link="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</a>
+                @endforeach
+                <a class="nav-categoria text-red-600 hover:text-slate-900 font-bold"
+                   href="#ofertas"
+                   data-categoria-link="__ofertas__">Ofertas</a>
             <div>
         </div>
     </section></div>
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 pb-4 pt-14 md:px-8">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pb-2 pt-8 md:px-8">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                    <img src="/LOGO_FOCCUS.png" class="w-36 brightness-0 invert md:w-40" alt="Logo Foccus" decoding="async">
+                    <img src="/LOGO_FOCCUS.png" class="w-24 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
                 </picture>
             </a>
 
@@ -599,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         $produtosCategoria = $produtosPorCategoria->get($nomeCategoria, collect())->values();
                     @endphp
 
-<section class="categoria-bloco">
+<section class="categoria-bloco" data-categoria-bloco="{{ $slug }}">
 
     <div class="mb-4 flex items-center justify-between">
         <h3 class="text-xl font-black text-slate-900">
@@ -637,7 +640,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                     : 0;
                             @endphp
 
-                            <article class="product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+                            <article class="product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+                                data-produto-card
+                                data-categoria="{{ $slug }}"
+                                data-nome="{{ Illuminate\Support\Str::lower($produto->nome) }}"
+                                data-preco="{{ $preco }}"
+                                data-oferta="{{ $temDesconto ? '1' : '0' }}">
 
                                 <div class="relative mb-4 overflow-hidden rounded-xl bg-slate-100 aspect-square">
 
@@ -906,6 +914,104 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.ofertas-swiper').addEventListener('mouseenter', () => swiper.autoplay.stop());
             document.querySelector('.ofertas-swiper').addEventListener('mouseleave', () => swiper.autoplay.start());
         });
+    </script>
+
+    <script>
+        // Filtro do catalogo: busca por nome, categoria, faixa de preco e ofertas.
+        (function () {
+            const cards = Array.from(document.querySelectorAll('[data-produto-card]'));
+            if (cards.length === 0) return;
+
+            const blocos = Array.from(document.querySelectorAll('[data-categoria-bloco]'));
+            const busca = document.getElementById('productSearch');
+            const selectCategoria = document.getElementById('categoryFilter');
+            const minInput = document.getElementById('minPriceFilter');
+            const maxInput = document.getElementById('maxPriceFilter');
+            const btnLimpar = document.getElementById('clearFilters');
+            const navCategorias = Array.from(document.querySelectorAll('[data-categoria-link]'));
+            const chips = Array.from(document.querySelectorAll('.category-chip'));
+
+            function aplicar(somenteOfertas) {
+                const termo = (busca?.value || '').trim().toLowerCase();
+                const categoria = somenteOfertas ? '' : (selectCategoria?.value || '');
+                const min = parseFloat(minInput?.value || '');
+                const max = parseFloat(maxInput?.value || '');
+
+                cards.forEach((card) => {
+                    const nome = card.dataset.nome || '';
+                    const cat = card.dataset.categoria || '';
+                    const preco = parseFloat(card.dataset.preco || '0');
+                    const oferta = card.dataset.oferta === '1';
+
+                    let ok = true;
+                    if (termo && !nome.includes(termo)) ok = false;
+                    if (categoria && cat !== categoria) ok = false;
+                    if (somenteOfertas && !oferta) ok = false;
+                    if (!Number.isNaN(min) && preco < min) ok = false;
+                    if (!Number.isNaN(max) && preco > max) ok = false;
+
+                    card.classList.toggle('hidden', !ok);
+                });
+
+                // Esconde o bloco inteiro quando nenhum produto da categoria passa no filtro.
+                blocos.forEach((bloco) => {
+                    const algumVisivel = Array.from(bloco.querySelectorAll('[data-produto-card]'))
+                        .some((c) => !c.classList.contains('hidden'));
+                    bloco.classList.toggle('hidden', !algumVisivel);
+                });
+            }
+
+            busca?.addEventListener('input', () => aplicar(false));
+            selectCategoria?.addEventListener('change', () => aplicar(false));
+            minInput?.addEventListener('input', () => aplicar(false));
+            maxInput?.addEventListener('input', () => aplicar(false));
+
+            btnLimpar?.addEventListener('click', () => {
+                if (busca) busca.value = '';
+                if (selectCategoria) selectCategoria.value = '';
+                if (minInput) minInput.value = '';
+                if (maxInput) maxInput.value = '';
+                chips.forEach((c) => c.classList.remove('active'));
+                aplicar(false);
+            });
+
+            // Barra "Compre por Categoria": filtra o catalogo e rola ate ele (exceto Ofertas).
+            navCategorias.forEach((link) => {
+                link.addEventListener('click', (e) => {
+                    const alvo = link.dataset.categoriaLink;
+                    if (alvo === '__ofertas__') return; // ancora #ofertas cuida do scroll
+                    e.preventDefault();
+                    if (selectCategoria) selectCategoria.value = alvo;
+                    chips.forEach((c) => c.classList.toggle('active', c.dataset.categoryChip === alvo));
+                    aplicar(false);
+                    document.getElementById('catalogo')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            });
+
+            chips.forEach((chip) => {
+                chip.addEventListener('click', () => {
+                    const alvo = chip.dataset.categoryChip || '';
+                    const jaAtivo = chip.classList.contains('active');
+                    chips.forEach((c) => c.classList.remove('active'));
+
+                    if (jaAtivo) {
+                        if (selectCategoria) selectCategoria.value = '';
+                    } else {
+                        chip.classList.add('active');
+                        if (selectCategoria) selectCategoria.value = alvo;
+                    }
+                    aplicar(false);
+                });
+            });
+
+            // Aplica filtro vindo da URL: /?categoria=slug#catalogo
+            const catUrl = new URLSearchParams(window.location.search).get('categoria');
+            if (catUrl && selectCategoria) {
+                selectCategoria.value = catUrl;
+                chips.forEach((c) => c.classList.toggle('active', c.dataset.categoryChip === catUrl));
+                aplicar(false);
+            }
+        })();
     </script>
 </body>
 </html>
