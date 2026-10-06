@@ -27,6 +27,10 @@ class PedidoService
             'status' => $status,
             'referencia' => (string) ($pagamento['referencia'] ?? ('PED-' . strtoupper(uniqid()))),
             'provedor' => (string) ($pagamento['provedor'] ?? 'simulador_local'),
+            'payment_id' => $pagamento['payment_id'] ?? null,
+            'pix_qr_code' => $pagamento['qr_code'] ?? null,
+            'pix_qr_code_base64' => $pagamento['qr_code_base64'] ?? null,
+            'pix_expira_em' => $pagamento['expira_em'] ?? null,
             'total' => collect($itens)->sum('subtotal'),
             'observacoes' => $observacoes,
             'data_pagamento' => $status === 'approved' ? now() : null,
@@ -65,9 +69,47 @@ class PedidoService
                 'status' => 'approved',
                 'data_pagamento' => now(),
             ]);
+
+            $this->enviarEmailConfirmacao($pedido);
         }
 
-        $this->enviarEmailConfirmacao($pedido);
+        return $pedido;
+    }
+
+    /**
+     * Sincroniza o status do pedido com o status real informado pelo Mercado Pago.
+     * So dispara e-mail quando ha transicao para aprovado.
+     */
+    public function sincronizarStatus(string $statusMp, ?string $referencia = null, ?string $paymentId = null): ?Pedido
+    {
+        $pedido = Pedido::query()
+            ->when($paymentId, fn ($q) => $q->where('payment_id', $paymentId))
+            ->when(! $paymentId && $referencia, fn ($q) => $q->where('referencia', $referencia))
+            ->first();
+
+        if (! $pedido) {
+            return null;
+        }
+
+        $novoStatus = match ($statusMp) {
+            'approved' => 'approved',
+            'rejected', 'cancelled' => 'rejected',
+            'refunded', 'charged_back' => 'refunded',
+            default => $pedido->status,
+        };
+
+        if ($novoStatus === $pedido->status) {
+            return $pedido;
+        }
+
+        $pedido->update([
+            'status' => $novoStatus,
+            'data_pagamento' => $novoStatus === 'approved' ? now() : $pedido->data_pagamento,
+        ]);
+
+        if ($novoStatus === 'approved') {
+            $this->enviarEmailConfirmacao($pedido);
+        }
 
         return $pedido;
     }

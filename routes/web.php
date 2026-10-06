@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\MercadoPagoWebhookController;
 use App\Http\Controllers\FavoritoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\UserController;
@@ -44,6 +45,17 @@ Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.in
 Route::get('/checkout/processar', fn () => redirect()->route('checkout.index'));
 Route::post('/checkout/processar', [CheckoutController::class, 'finalizar'])->name('checkout.processar');
 Route::get('/checkout/retorno', [CheckoutController::class, 'retorno'])->name('checkout.retorno');
+Route::get('/checkout/pix/{referencia}', [CheckoutController::class, 'pix'])
+    ->where('referencia', '[A-Za-z0-9\-]+')
+    ->name('checkout.pix');
+Route::get('/checkout/pix/{referencia}/status', [CheckoutController::class, 'pixStatus'])
+    ->where('referencia', '[A-Za-z0-9\-]+')
+    ->name('checkout.pix.status');
+
+// Webhook do Mercado Pago: CSRF isento em bootstrap/app.php. O status e sempre
+// confirmado consultando a API do MP (ver MercadoPagoWebhookController).
+Route::match(['get', 'post'], '/webhooks/mercadopago', MercadoPagoWebhookController::class)
+    ->name('webhooks.mercadopago');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/favoritos', [FavoritoController::class, 'index'])->name('favoritos.index');

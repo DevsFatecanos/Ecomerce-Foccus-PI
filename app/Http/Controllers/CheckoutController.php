@@ -98,6 +98,22 @@ class CheckoutController extends Controller
                 return redirect()->away($pagamento['checkout_url']);
             }
 
+            if (($pagamento['tipo'] ?? '') === 'pix') {
+                $this->cartService->limpar();
+
+                $pixUrl = route('checkout.pix', ['referencia' => $pedido->referencia], false);
+
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'PIX gerado com sucesso.',
+                        'redirect_url' => $pixUrl,
+                    ]);
+                }
+
+                return redirect()->to($pixUrl);
+            }
+
             $this->cartService->limpar();
 
             $retornoUrl = '/checkout/retorno?' . http_build_query([
@@ -133,37 +149,121 @@ class CheckoutController extends Controller
         }
     }
 
+    public function pix(string $referencia): View|RedirectResponse
+    {
+        $pedido = \App\Models\Pedido::where('referencia', $referencia)->firstOrFail();
+
+        if ($pedido->pix_qr_code === null) {
+            return redirect()->to('/checkout')->with('error', 'Pedido sem PIX gerado.');
+        }
+
+        if ($pedido->status === 'approved') {
+            return redirect()->to(route('checkout.retorno', [
+                'status' => 'approved',
+                'external_reference' => $pedido->referencia,
+                'provedor' => $pedido->provedor,
+            ], false));
+        }
+
+        return view('checkout-pix', [
+            'pedido' => $pedido,
+        ]);
+    }
+
+    public function pixStatus(string $referencia): JsonResponse
+    {
+        $pedido = \App\Models\Pedido::where('referencia', $referencia)->first();
+
+        if (! $pedido) {
+            return response()->json(['success' => false, 'message' => 'Pedido nao encontrado.'], 404);
+        }
+
+        // Enquanto pendente, confirma o status real consultando o Mercado Pago.
+        if ($pedido->status === 'pending' && $pedido->payment_id) {
+            $consulta = $this->checkoutPaymentService->consultarPagamento($pedido->payment_id);
+
+            if ($consulta && ($consulta['status'] ?? '') !== 'pending') {
+                $this->pedidoService->sincronizarStatus(
+                    $consulta['status'],
+                    $consulta['referencia'] ?? $pedido->referencia,
+                    $consulta['payment_id'] ?? $pedido->payment_id,
+                );
+                $pedido->refresh();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'status' => $pedido->status,
+            'aprovado' => $pedido->status === 'approved',
+            'redirect_url' => $pedido->status === 'approved'
+                ? route('checkout.retorno', [
+                    'status' => 'approved',
+                    'external_reference' => $pedido->referencia,
+                    'provedor' => $pedido->provedor,
+                ], false)
+                : null,
+        ]);
+    }
+
     public function retorno(Request $request): View
     {
-        $status = $request->string('status')->toString();
+        // SEGURANCA: o status exibido/gravado NUNCA vem da URL (qualquer um forja
+        // "?status=approved"). A fonte da verdade e o status real consultado no
+        // Mercado Pago e persistido no pedido.
         $referencia = (string) (
             $request->get('external_reference')
             ?? $request->get('merchant_order_id')
             ?? ''
         );
 
-        if ($status === 'approved' && $referencia !== '') {
-            $this->pedidoService->marcarComoAprovadoPorReferencia($referencia);
+        $pedido = $referencia !== ''
+            ? \App\Models\Pedido::where('referencia', $referencia)->first()
+            : null;
+
+        if ($pedido && $pedido->status === 'pending' && $pedido->payment_id) {
+            $consulta = $this->checkoutPaymentService->consultarPagamento($pedido->payment_id);
+
+            if ($consulta && ($consulta['status'] ?? '') !== 'pending') {
+                $this->pedidoService->sincronizarStatus(
+                    $consulta['status'],
+                    $consulta['referencia'] ?? $pedido->referencia,
+                    $consulta['payment_id'] ?? $pedido->payment_id,
+                );
+                $pedido->refresh();
+            }
         }
 
-        if ($status === 'approved') {
+        // Fallback legado: pedidos do simulador local (sem payment_id) usam o
+        // caminho antigo, mas somente quando o modo de teste esta ativo.
+        if ($pedido && $pedido->payment_id === null
+            && (bool) config('services.mercado_pago.test_mode_only', true)
+            && $request->string('status')->toString() === 'approved') {
+            $this->pedidoService->marcarComoAprovadoPorReferencia($pedido->referencia);
+            $pedido->refresh();
+        }
+
+        if ($pedido && $pedido->status === 'approved') {
             $this->cartService->limpar();
         }
+
+        $statusExibido = $pedido?->status ?? ($referencia !== '' ? 'pending' : $request->string('status')->toString());
 
         $mensagens = [
             'approved' => 'Pagamento aprovado! Seu pedido foi confirmado.',
             'pending' => 'Pagamento pendente. Assim que confirmado, seu pedido sera processado.',
-            'failure' => 'Pagamento nao concluido. Voce pode tentar novamente.',
+            'rejected' => 'Pagamento nao concluido. Voce pode tentar novamente.',
+            'refunded' => 'Pagamento estornado.',
         ];
 
         return view('checkout-retorno', [
-            'status' => $status ?: 'pending',
-            'mensagemStatus' => $mensagens[$status] ?? 'Retorno recebido. Estamos validando seu pedido.',
+            'status' => $statusExibido ?: 'pending',
+            'mensagemStatus' => $mensagens[$statusExibido] ?? 'Retorno recebido. Estamos validando seu pedido.',
             'referencia' => $referencia !== '' ? $referencia : 'N/A',
-            'provedor' => $request->get(
+            'provedor' => $pedido?->provedor ?? ($request->get(
                 'provedor',
                 (bool) config('services.mercado_pago.test_mode_only', true) ? 'simulador_local' : 'mercado_pago',
-            ),
+            )),
         ]);
     }
 }
