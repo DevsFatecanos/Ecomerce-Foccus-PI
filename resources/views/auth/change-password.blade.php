@@ -12,14 +12,14 @@
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">
 </head>
-<body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans">
+<body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans p-4">
 
-    <section class="main">
+    <section class="main w-full max-w-[950px]">
         <!-- Container Principal -->
-        <div class="flex w-[950px] h-auto bg-white rounded-[20px] shadow-2xl overflow-hidden">
-            
+        <div class="flex w-full flex-col bg-white rounded-[20px] shadow-2xl overflow-hidden md:flex-row">
+
             <!-- Lado Esquerdo (Azul) -->
-            <div class="relative w-[35%] bg-[#465367] p-[50px] text-white flex flex-col justify-center">
+            <div class="relative w-full bg-[#465367] p-[30px] text-white flex flex-col justify-center md:w-[35%] md:p-[50px]">
                 <!-- Botão Home -->
                 <a class="absolute top-10 left-10 text-white no-underline text-sm flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"  href="/" >
                     <i class="fa-solid fa-angle-left"></i> Home
@@ -36,7 +36,7 @@
             </div>
 
             <!-- Lado Direito (Branco/Formulário) -->
-            <div class="w-[65%] p-[60px] flex flex-col justify-center">
+            <div class="w-full p-[30px] flex flex-col justify-center md:w-[65%] md:p-[60px]">
                 <h2 class="text-[24px] font-bold text-[#1a1a1a]">Trocar Senha</h2>
                 <p class="text-[13px] text-[#888] mb-[30px]">Insira sua senha atual e a nova senha desejada.</p>
 
@@ -127,7 +127,7 @@
                     </div>
 
                     <!-- Botões -->
-                    <div class="flex gap-[15px]">
+                    <div class="flex flex-col gap-[15px] sm:flex-row">
                         <button type="submit" class="flex-1 bg-[#465367] text-white font-bold py-[12px] px-[20px] rounded-[8px] cursor-pointer hover:bg-[#3a4452] transition-colors">
                             <i class="fas fa-lock"></i> Alterar Senha
                         </button>

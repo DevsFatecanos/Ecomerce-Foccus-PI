@@ -20,13 +20,13 @@
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">
 </head>
-<body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans">
-    <section class="main">
+<body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans p-4">
+    <section class="main w-full max-w-[950px]">
         <!-- Container Principal -->
-        <div class="flex w-[950px] h-[600px] bg-white rounded-[20px] shadow-2xl overflow-hidden">
-            
+        <div class="flex w-full flex-col bg-white rounded-[20px] shadow-2xl overflow-hidden md:h-[600px] md:flex-row">
+
             <!-- Lado Esquerdo (Azul) -->
-            <div class="relative w-[35%] bg-[#465367] p-[50px] text-white flex flex-col justify-center">
+            <div class="relative w-full bg-[#465367] p-[30px] text-white flex flex-col justify-center md:w-[35%] md:p-[50px]">
                 <!-- Botão Home (Substituindo o absolute manual por Tailwind) -->
                 <a class="absolute top-10 left-10 text-white no-underline text-sm flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity"  href="/" >
                     <i class="fa-solid fa-angle-left"></i> Home
@@ -43,7 +43,7 @@
             </div>
 
             <!-- Lado Direito (Branco/Formulário) -->
-            <div class="w-[65%] p-[60px] flex flex-col justify-center">
+            <div class="w-full p-[30px] flex flex-col justify-center md:w-[65%] md:p-[60px]">
                 <h2 class="text-[24px] font-bold text-[#1a1a1a]">Seus Dados</h2>
                 <p class="text-[13px] text-[#888] mb-[30px]">Atualize ou Adicione seus dados aqui.</p>
 
@@ -54,7 +54,7 @@
                         <input name="name" type="text" value="{{ auth()->user()->name }}" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
                     </div>
 
-                    <div class="flex gap-[20px] mb-[20px]">
+                    <div class="flex flex-col gap-[20px] mb-[20px] sm:flex-row">
                         <div class="flex-1">
                             <label class="block text-[11px] font-bold text-[#aaa] uppercase tracking-[1px] mb-[5px]">CPF</label>
                             <input name="cpf" id="cpf" type="text" value="{{ auth()->user()->cpf }}" placeholder="123.456.789-10" data-format="999.999.999-99" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
@@ -74,7 +74,7 @@
                     @endif
 
                     <!-- Seção de Botões -->
-                    <div class="mt-[20px] flex gap-[10px] items-start">
+                    <div class="mt-[20px] flex flex-col gap-[10px] items-stretch sm:flex-row sm:items-start">
                         <a href="{{ route('change-password.form') }}" class="w-1/2 bg-[#465367] text-white border border-[#ddd] p-[15px] rounded-[8px] text-[14px] font-semibold cursor-pointer transition-all duration-500 hover:bg-[#888888] text-center no-underline">
                             <i class="fas fa-lock"></i> Trocar Senha
                         </a>
