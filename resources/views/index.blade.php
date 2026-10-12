@@ -281,6 +281,24 @@ background-color:#a9abae;
     margin-top: 500px;
 }
 
+.QuerOfertasBtn{
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size:big;
+    border-radius:20px;
+    background-color:#5f6f86;
+    color:white;
+    font-weight: 500 ;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.QuerOfertasBtn:hover{    
+transform: translateY(-2px);
+background-color:#a9abae;
+}
+
      </style>
 </head>
 <body class="min-h-screen text-slate-900">
@@ -345,22 +363,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-------------------------------->
     <nav style="padding: 6px;" class="glass sticky top-0 z-50 border-b border-white/10">
-        <div class="w-full fixed top-0 left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-0.5"><!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
-    <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40  ">
-        <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
-                <p class="text-slate-600 font-bold" >Compre por Categoria!</p>
-                @foreach($categoriaLista as $nomeCategoria)
-                    <a class="nav-categoria text-slate-600 hover:text-slate-900 hover:font-bold"
-                       href="#catalogo"
-                       data-categoria-link="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</a>
-                @endforeach
-                <a class="nav-categoria text-red-600 hover:text-slate-900 font-bold"
-                   href="#ofertas"
-                   data-categoria-link="__ofertas__">Ofertas</a>
-            <div>
-        </div>
-    </section></div>
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pb-2 pt-8 md:px-8">
+       
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 md:px-8">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
@@ -436,6 +440,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 </button>
             </div>
         </div>
+        <!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
+        <div class="w-full fixed top-[67px] left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-1">
+            <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40  ">
+                <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
+                        <p class="text-slate-600 font-bold" >Compre por Categoria!</p>
+                        @foreach($categoriaLista as $nomeCategoria)
+                            <a class="nav-categoria text-slate-600 rounded transition-colors duration-300 ease-in-out hover:text-slate-900 hover:font-bold"
+                            href="#catalogo"
+                            data-categoria-link="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</a>
+                        @endforeach
+                        <a class="nav-categoria text-red-600 rounded transition-colors duration-300 ease-in-out hover:text-slate-900 font-bold"
+                        href="#ofertas"
+                        data-categoria-link="__ofertas__">Ofertas</a>
+                </div>
+            </section>
+        </div>
+        <!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
     </nav>
 
     @if (session('success') || session('error'))
@@ -822,35 +843,47 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 
-
-<footer class="bg-dark text-white pt-5 pb-3 mt-5">
+<div class="absolute z-10 flex w-full right-52 mt-12 justify-end">
+    <a class="QuerOfertasBtn" target="_blank" href="/register">
+        Cadastre-se!
+    </a>
+</div>
+<picture>
+    <img src="{{ asset('QuerOfertas.jpg') }}" class="w-full mt-5" alt="Quer Oferta" decoding="async">
+</picture>
+<footer class="bg-slate-800 glass text-white pt-5 pb-3">
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-lg-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Foccus Comercial</h5>
+                <a href="/" class="shrink-0">
+                    <picture>
+                        <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
+                        <img src="/LOGO_FOCCUS.png" class="w-50 mb-2 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
+                    </picture>
+                </a>
                 <p>Desde 2024 sendo sua parceira em soluções de comercialização e distribuição na região de São Paulo.</p>
                 <div class="d-flex gap-3 mt-3">
-                    <a href="https://www.instagram.com/foccus.dist/" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/foccus.dist/" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
-                    <a href="https://wa.me/5511937530312" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.instagram.com/foccus.dist/" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/foccus.dist/" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/5511937530312" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
 
             <div class="col-md-2 col-lg-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Links úteis</h5>
+                <h5 class="text-uppercase mb-4 font-bold text-white">Links úteis</h5>
                 <p><a href="/" class="text-white" style="text-decoration: none;">Início</a></p>
                 <p><a href="/carrinho" class="text-white" style="text-decoration: none;">Meu Carrinho</a></p>
             </div>
 
             <div class="col-md-3 col-lg-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contato</h5>
-                <p class="small"><i class="fas fa-home mr-3 text-warning"></i> R. Cembira, 922 - Vila Curuçá Velha, SP</p>
-                <p class="small"><i class="fas fa-envelope mr-3 text-warning"></i> contato@foccus.com.br</p>
-                <p class="small"><i class="fas fa-phone mr-3 text-warning"></i> (11) 93753-0312</p>
+                <h5 class="text-uppercase mb-4 font-bold text-white">Contato</h5>
+                <p class="small"><i class="fas fa-home mr-3 text-slate-400"></i> R. Cembira, 922 - Vila Curuçá Velha, SP</p>
+                <p class="small"><i class="fas fa-envelope mr-3 text-slate-400"></i> contato@foccus.com.br</p>
+                <p class="small"><i class="fas fa-phone mr-3 text-slate-400"></i> (11) 93753-0312</p>
             </div>
 
             <div class="col-md-3 col-lg-4 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Localização</h5>
+                <h5 class="text-uppercase mb-4 font-bold text-white">Localização</h5>
                 <div class="rounded overflow-hidden border border-secondary" style="height: 150px;">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.182283038676!2d-46.42557612386127!3d-23.49001375902123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce63e9f4560417%3A0xc00570b55ec90013!2sR.%20Cembira%2C%20922%20-%20Vila%20Curu%C3%A7%C3%A1%20Velha%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2008032-010!5e0!3m2!1spt-BR!2sbr!4v1715000000000!5m2!1spt-BR!2sbr"
@@ -862,14 +895,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         <hr class="mb-4 mt-5 border-secondary">
 
-        <div class="row">
+        <div class="row ">
             <div class="col-md-12 text-center">
-                <p class="mb-2 small">© 2026 Copyright: <strong>Equipe DSM FATEC-ZL | DevsFatecanos</strong></p>
-                <div class="d-flex justify-content-center gap-3 mt-2">
-                    <i class="fab fa-laravel text-secondary" title="Laravel"></i>
-                    <i class="fab fa-docker text-secondary" title="Docker"></i>
-                    <i class="fab fa-php text-secondary" title="PHP 8"></i>
-                </div>
+                <p class="mb-2 small">© 2026 Copyright: <strong>Foccus Comercial</strong></p>
             </div>
         </div>
     </div>
