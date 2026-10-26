@@ -7,6 +7,7 @@
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
 </head>
 <body class="bg-gray-50 flex items-center justify-center min-h-screen border-t-8 border-slate-500">
 

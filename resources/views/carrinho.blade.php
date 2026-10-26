@@ -6,6 +6,7 @@
     <title>Carrinho | Distribuidora Foccus</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">

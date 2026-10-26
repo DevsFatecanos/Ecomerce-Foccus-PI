@@ -6,6 +6,7 @@
     <title>Pagamento via PIX | Distribuidora Foccus</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
 </head>
 <body class="min-h-screen bg-slate-950 px-4 py-14 text-white">

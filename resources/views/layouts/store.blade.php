@@ -10,6 +10,7 @@
     <link rel="dns-prefetch" href="https://kit.fontawesome.com">
 
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>

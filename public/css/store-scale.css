@@ -1,0 +1,8 @@
+html {
+    font-size: 15px;
+}
+
+.product-card .aspect-square,
+article .aspect-square {
+    aspect-ratio: 4 / 3;
+}

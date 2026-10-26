@@ -7,6 +7,7 @@
     <title>Checkout | Distribuidora Foccus</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <script id="#userwayAccessibilityIcon" src = " https://cdn.userway.org/widget.js "  data-account = " wHedvuvp49 " ></script>
     <style>
     #userwayAccessibilityIcon {
