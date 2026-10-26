@@ -583,13 +583,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="swiper-slide">
                             <article class="flex flex-col overflow-hidden rounded-xl border bg-white shadow {{ $temDesconto ? 'border-red-200' : 'border-slate-200' }}">
                                 <div class="relative flex h-28 items-center justify-center bg-slate-50">
-                                    <x-product-image :url="$item->url_imagem" :ean="$item->codigo_barras" alt="{{ $item->nome }}" class="max-h-24 max-w-full object-contain" />
+                                    <a href="{{ route('produtos.show', $item->id) }}" class="flex h-full w-full items-center justify-center" aria-label="Ver {{ $item->nome }}">
+                                        <x-product-image :url="$item->url_imagem" :ean="$item->codigo_barras" alt="{{ $item->nome }}" class="max-h-24 max-w-full object-contain" />
+                                    </a>
                                     @if($temDesconto)
                                         <span class="absolute left-2 top-2 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">-{{ $percentualDesconto }}%</span>
                                     @endif
                                 </div>
                                 <div class="flex flex-1 flex-col p-2.5">
-                                    <h3 class="truncate text-sm font-bold text-slate-800">{{ $item->nome }}</h3>
+                                    <h3 class="truncate text-sm font-bold text-slate-800"><a href="{{ route('produtos.show', $item->id) }}" class="text-inherit no-underline hover:text-blue-700">{{ $item->nome }}</a></h3>
                                     <p class="mt-1 text-xs text-slate-500">{{ $item->categoria ?? 'Oferta' }}</p>
 
                                     <div class="mt-2">
