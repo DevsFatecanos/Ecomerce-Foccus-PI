@@ -318,6 +318,15 @@
     color: #1e293b;
 }
 
+        @media (max-width: 640px) {
+            .dropbtn {
+                max-width: 112px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
+
 .conteiner-img{
     position:absolute;
     color:white;
@@ -437,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-------------------------------->
     <nav class="sticky top-0 z-50 bg-[#465367]">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8 lg:flex-nowrap lg:gap-4">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
@@ -445,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </picture>
             </a>
 
-            <div class="flex-1 max-w-md hidden lg:block">
+            <div class="order-3 w-full max-w-none lg:order-none lg:flex-1 lg:max-w-md">
                 <form action="/search" method="GET" class="relative">
                     <input type="text" name="q" placeholder="O que você procura?" class="w-full rounded-full border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-500 transition-all focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-300">
                     <div class="absolute left-3 top-2.5 text-black">
@@ -486,9 +495,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 @guest
                     <a href="/login" class="hidden text-sm font-semibold text-slate-100 transition hover:text-white md:inline">Entrar</a>
                     <a href="/register" class="hidden rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100 md:inline">Cadastrar</a>
+                    <a href="/login" aria-label="Entrar" title="Entrar" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:hidden"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i></a>
+                    <a href="/register" aria-label="Cadastrar" title="Cadastrar" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:hidden"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></a>
                 @endguest
-                <h1 class="text-white">|</h1>
-                <button type="button" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
+                <h1 class="hidden text-white md:block">|</h1>
+                <button type="button" aria-label="Abrir carrinho" title="Carrinho" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
                     <span>🛒</span><span class="hidden md:inline">Carrinho</span>
                     <span class="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white" id="carrinhoCountBadge">0</span>
                 </button>

@@ -38,16 +38,16 @@
             </a>
             <div class="flex items-center gap-2">
                 @auth
-                    <a href="{{ route('favoritos.index') }}" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
+                    <a href="{{ route('favoritos.index') }}" aria-label="Favoritos" title="Favoritos" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 8.7c0 5.1-8.8 10-8.8 10s-8.8-4.9-8.8-10a4.6 4.6 0 0 1 8.8-1.8 4.6 4.6 0 0 1 8.8 1.8Z"/></svg>
                         <span class="hidden text-xs font-bold md:inline">Favoritos</span>
                     </a>
-                    <a href="{{ route('pedidos.index') }}" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
+                    <a href="{{ route('pedidos.index') }}" aria-label="Histórico de pedidos" title="Histórico de pedidos" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v15H4zM8 3.5v4M16 3.5v4M4 10h16M8 14h3M8 17h6"/></svg>
                         <span class="hidden text-xs font-bold md:inline">Historico</span>
                     </a>
                 @endauth
-                <a href="/carrinho" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100">
+                <a href="/carrinho" aria-label="Carrinho" title="Carrinho" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 1.9-1.4L22 9H6M10 21h.01M18 21h.01"/></svg>
                     <span class="hidden md:inline">Carrinho</span>
                     @if ($quantidadeTotal > 0)

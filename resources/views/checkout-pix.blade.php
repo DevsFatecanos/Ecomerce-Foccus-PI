@@ -25,7 +25,7 @@
                 <img
                     src="data:image/png;base64,{{ $pedido->pix_qr_code_base64 }}"
                     alt="QR Code do PIX"
-                    class="mx-auto h-64 w-64"
+                    class="mx-auto aspect-square h-auto w-full max-w-64"
                 >
             @else
                 <p class="text-center text-slate-700">
