@@ -447,8 +447,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             <div class="flex-1 max-w-md hidden lg:block">
                 <form action="/search" method="GET" class="relative">
-                    <input type="text" name="q" placeholder="O que você procura hoje?" class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
-                    <div class="absolute left-3 top-2.5 text-slate-300">
+                    <input type="text" name="q" placeholder="O que você procura?" class="w-full rounded-full border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-500 transition-all focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-300">
+                    <div class="absolute left-3 top-2.5 text-black">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
