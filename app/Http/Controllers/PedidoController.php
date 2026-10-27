@@ -39,6 +39,7 @@ class PedidoController extends Controller
         $favoritosIds = Favorito::query()
             ->where('user_id', $user->id)
             ->pluck('produto_id')
+            ->map(static fn ($produtoId): int => (int) $produtoId)
             ->all();
 
         return view('pedidos.index', [

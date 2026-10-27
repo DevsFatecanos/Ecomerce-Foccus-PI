@@ -18,6 +18,7 @@ class ProdutoController extends Controller
             ? Favorito::query()
                 ->where('user_id', auth()->id())
                 ->pluck('produto_id')
+                ->map(static fn ($produtoId): int => (int) $produtoId)
                 ->all()
             : [];
 

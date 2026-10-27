@@ -10,18 +10,25 @@
     <link rel="dns-prefetch" href="https://kit.fontawesome.com">
 
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/02669f3445.js" crossorigin="anonymous" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
             background-color: #ffffff;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
         .dropdown-content {
             display: none;
@@ -58,14 +65,18 @@
             padding: 0.5rem 1rem;
             border-radius: 9999px;
             border: none;
-            background: rgba(255, 255, 255, 0.1);
+            background: #344254;
             color: #fff;
             font-size: 0.875rem;
             font-weight: 600;
             transition: background 0.2s;
         }
         .dropbtn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #2d394a;
+        }
+        .store-category-nav {
+            background: rgba(248, 250, 252, 0.98);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
         }
     </style>
 
@@ -73,25 +84,10 @@
 </head>
 <body class="min-h-screen text-slate-900">
 
-    <!-- BARRA DE CATEGORIAS -->
-    <div class="w-full fixed top-0 left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-0.5">
-        <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40">
-            <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
-                <p class="text-slate-600 font-bold">Compre por Categoria!</p>
-                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=limpeza#catalogo">Limpeza</a>
-                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=higiene-e-beleza#catalogo">Higiene e Beleza</a>
-                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=mercearia#catalogo">Mercearia</a>
-                <a class="text-slate-600 hover:text-slate-900 hover:font-bold" href="/?categoria=bebida#catalogo">Bebidas</a>
-                <a class="text-red-600 hover:text-slate-900 font-bold" href="/#ofertas">Ofertas</a>
-            </div>
-        </section>
-    </div>
-
     <!-- NAVBAR PRINCIPAL -->
-    <nav style="padding: 6px;" class="sticky top-0 z-50 border-b border-slate-700 bg-slate-800">
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pb-2 pt-4 md:px-8">
-
-            <!-- Logo -->
+    <div class="sticky top-0 z-50">
+    <nav class="border-b border-slate-700 bg-[#465367]">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
@@ -99,13 +95,9 @@
                 </picture>
             </a>
 
-            <!-- Busca (desktop) -->
             <div class="flex-1 max-w-md hidden lg:block">
                 <form action="/search" method="GET" class="relative">
-                    <input type="text"
-                        name="q"
-                        placeholder="O que você procura hoje?"
-                        class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
+                    <input type="text" name="q" placeholder="O que você procura hoje?" class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
                     <div class="absolute left-3 top-2.5 text-slate-300">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -114,13 +106,10 @@
                 </form>
             </div>
 
-            <!-- Ações (login/registro ou usuário + carrinho) -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 @auth
                     <div class="dropdown z-[1000]">
-                        <button onclick="toggleMenu()" class="dropbtn">
-                            Olá, {{ auth()->user()->name }}
-                        </button>
+                        <button onclick="toggleMenu()" class="dropbtn">Olá, {{ auth()->user()->name }}</button>
                         <div id="menu" class="dropdown-content">
                             <a href="/meusdados">Meus dados</a>
                             <a href="{{ route('pedidos.index') }}">Meus Pedidos</a>
@@ -128,29 +117,22 @@
                             @if(Auth::user()->is_admin)
                                 <a href="/admin/dashboard">Dashboard</a>
                             @endif
-                            <a href="/change-password">Trocar Senha</a>
                             @if(Auth::user()->is_admin)
                                 <a href="/admin/produtos/create">Novo Produto</a>
                             @endif
                             <form action="/logout" method="POST" class="m-0">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 border-0 bg-transparent cursor-pointer font-semibold">
-                                    Sair
-                                </button>
+                                <button type="submit" class="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 border-0 bg-transparent cursor-pointer font-semibold">Sair</button>
                             </form>
                         </div>
                     </div>
-
                     <script>
                         function toggleMenu() {
                             document.getElementById("menu").classList.toggle("show");
                         }
                         window.onclick = function(event) {
                             if (!event.target.matches('.dropbtn')) {
-                                let menus = document.querySelectorAll('.dropdown-content');
-                                menus.forEach(function(menu) {
-                                    menu.classList.remove('show');
-                                });
+                                document.querySelectorAll('.dropdown-content').forEach((menu) => menu.classList.remove('show'));
                             }
                         }
                     </script>
@@ -168,6 +150,20 @@
         </div>
     </nav>
 
+    @unless (request()->routeIs('produtos.show'))
+        <nav class="store-category-nav w-full border-b border-slate-200" aria-label="Categorias de produtos">
+            <div class="mx-auto flex w-full max-w-7xl items-center justify-start gap-1 overflow-x-auto px-4 py-1 md:justify-center md:gap-2 md:px-8">
+                <span class="mr-1 shrink-0 text-[10px] font-black uppercase text-slate-500 md:mr-2 md:text-[11px]">Categorias</span>
+                <a class="inline-flex min-h-[30px] shrink-0 items-center rounded-full px-2.5 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200 hover:text-slate-900" href="/?categoria=limpeza#catalogo">Limpeza</a>
+                <a class="inline-flex min-h-[30px] shrink-0 items-center rounded-full px-2.5 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200 hover:text-slate-900" href="/?categoria=higiene-e-beleza#catalogo">Higiene e Beleza</a>
+                <a class="inline-flex min-h-[30px] shrink-0 items-center rounded-full px-2.5 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200 hover:text-slate-900" href="/?categoria=mercearia#catalogo">Mercearia</a>
+                <a class="inline-flex min-h-[30px] shrink-0 items-center rounded-full px-2.5 text-[11px] font-bold text-slate-600 transition hover:bg-slate-200 hover:text-slate-900" href="/?categoria=bebida#catalogo">Bebidas</a>
+                <a class="inline-flex min-h-[30px] shrink-0 items-center rounded-full px-2.5 text-[11px] font-bold text-red-600 transition hover:bg-red-100 hover:text-red-700" href="/#ofertas">Ofertas</a>
+            </div>
+        </nav>
+    @endunless
+    </div>
+
     <!-- Flash Messages -->
     @if (session('success') || session('error'))
         <div class="mx-auto mt-6 max-w-7xl px-4 md:px-8">
@@ -184,50 +180,13 @@
         @yield('content')
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white pt-5 pb-3 mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-lg-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Foccus Comercial</h5>
-                    <p>Desde 2024 sendo sua parceira em soluções de comercialização e distribuição na região de São Paulo.</p>
-                    <div class="d-flex gap-3 mt-3">
-                        <a href="https://www.instagram.com/foccus.dist/" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
-                        <a href="https://www.facebook.com/foccus.dist/" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
-                        <a href="https://wa.me/5511937530312" target="_blank" class="text-white hover-warning" style="font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-md-2 col-lg-2 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Links úteis</h5>
-                    <p><a href="/" class="text-white" style="text-decoration: none;">Início</a></p>
-                    <p><a href="/carrinho" class="text-white" style="text-decoration: none;">Meu Carrinho</a></p>
-                </div>
-
-                <div class="col-md-3 col-lg-3 mx-auto mt-3">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Contato</h5>
-                    <p class="small"><i class="fas fa-home mr-3 text-warning"></i> R. Cembira, 922 - Vila Curuçá Velha, SP</p>
-                    <p class="small"><i class="fas fa-envelope mr-3 text-warning"></i> contato@foccus.com.br</p>
-                    <p class="small"><i class="fas fa-phone mr-3 text-warning"></i> (11) 93753-0312</p>
-                </div>
-
-                <div class="col-md-3 col-lg-4 mx-auto mt-3 text-center text-md-start">
-                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Horário de Funcionamento</h5>
-                    <p class="small">Segunda a Sexta: 08:00 - 18:00</p>
-                    <p class="small">Sábado: 08:00 - 13:00</p>
-                </div>
-            </div>
-            <hr class="border-secondary mt-4">
-            <div class="text-center mt-3 pb-2">
-                <small>Versão 1.0</small>
-                <br>
-                <small class="text-muted">© 2026 Foccus</small>
-            </div>
-        </div>
-    </footer>
+    @include('partials.cart-modal')
+    @include('partials.store-footer')
 
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('JS/carrinho.js') }}" defer></script>
+    <script src="{{ asset('JS/favoritos.js') }}" defer></script>
 
     @yield('extra-js')
 </body>

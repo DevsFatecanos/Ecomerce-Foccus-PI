@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <link rel="preload" href="/LOGO_FOCCUS.webp" as="image" type="image/webp">
 
@@ -56,9 +57,7 @@
         }
 
         .home-category-bar {
-            position: absolute;
-            top: 100%;
-            left: 0;
+            position: relative;
             background: rgba(248, 250, 252, 0.98);
             border-bottom: 1px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
@@ -251,51 +250,72 @@
 
 .dropdown {
     position: relative;
-    display: inline-block;
-    background-color:white;
-    padding:8px;
-    border-radius:16px;
-    font-size:11px;
-    font-weight:bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-
-.dropdown:hover{
- background-color: #a9abae;
-transform: translateY(-2px);
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
+    right: 0;
+    z-index: 1001;
+    min-width: 200px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
     background: #fff;
-    border: 1px solid #ccc;
-    min-width: 150px;
-}
-
-.dropdown-content a,
-.dropdown-content button {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    color:#424242;
-}
-
-.dropdown-content a:hover {
-    background-color:#ccc;
-}
-
-.dropdown-content button:hover {
-    background-color:#ccc;
+    padding: 0.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-content.show {
     display: block;
+}
+
+.dropdown-content a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #475569;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.dropbtn {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    background: #344254;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.dropbtn:hover {
+    background: #2d394a;
+}
+
+.dropdown-content button {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    color: #475569;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background: #f1f5f9;
+    color: #1e293b;
 }
 
 .conteiner-img{
@@ -416,23 +436,18 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-------------------------------->
-    <nav style="padding: 6px;" class="glass sticky top-0 z-50 border-b border-white/10">
-       
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5 md:px-8">
+    <nav class="sticky top-0 z-50 bg-[#465367]">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 md:px-8">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                    <img src="/LOGO_FOCCUS.png" class="w-20 brightness-0 invert md:w-24" alt="Logo Foccus" decoding="async">
+                    <img src="/LOGO_FOCCUS.png" class="w-24 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
                 </picture>
             </a>
 
-
             <div class="flex-1 max-w-md hidden lg:block">
                 <form action="/search" method="GET" class="relative">
-                    <input type="text"
-                        name="q"
-                        placeholder="O que você procura hoje?"
-                        class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
+                    <input type="text" name="q" placeholder="O que você procura hoje?" class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
                     <div class="absolute left-3 top-2.5 text-slate-300">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -442,54 +457,39 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <div class="flex items-center gap-2">
-            @auth
-                <div class="dropdown z-[1000]">
-                    <button onclick="toggleMenu()" class="dropbtn">
-                      Olá, {{ auth()->user()->name }}
-                    </button>
-                    <div id="menu" class="dropdown-content">
-                         <a href="/meusdados">Meus dados</a>
-                         <a href="{{ route('pedidos.index') }}">Meus Pedidos</a>
-                         <a href="{{ route('favoritos.index') }}">Meus Favoritos</a>
-                         @if(Auth::user()->is_admin)
-                         <a href="/admin/dashboard">Dashboard</a>
-                         @endif
-                         <a href="/change-password">Trocar Senha</a>
-                         @if(Auth::user()->is_admin)
-                         <a href="/admin/produtos/create">Novo Produto</a>
-                         @endif
-                         <button type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Sair
-                        </button>
-                        <form id="logout-form" method="POST" action="/logout" class="hidden">
-                            @csrf
-                        </form>
+                @auth
+                    <div class="dropdown z-[1000]">
+                        <button onclick="toggleMenu()" class="dropbtn">Olá, {{ auth()->user()->name }}</button>
+                        <div id="menu" class="dropdown-content">
+                            <a href="/meusdados">Meus dados</a>
+                            <a href="{{ route('pedidos.index') }}">Meus Pedidos</a>
+                            <a href="{{ route('favoritos.index') }}">Meus Favoritos</a>
+                            @if(Auth::user()->is_admin)
+                                <a href="/admin/dashboard">Dashboard</a>
+                                <a href="/admin/produtos/create">Novo Produto</a>
+                            @endif
+                            <form id="logout-form" method="POST" action="/logout" class="hidden">@csrf</form>
+                            <button type="button" class="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 border-0 bg-transparent cursor-pointer font-semibold" onclick="document.getElementById('logout-form').submit()">Sair</button>
+                        </div>
                     </div>
-                </div>
-                <script>
-                    function toggleMenu() {
-                        document.getElementById("menu").classList.toggle("show");
-                    }
-
-                    // fechar ao clicar fora
+                    <script>
+                        function toggleMenu() {
+                            document.getElementById('menu').classList.toggle('show');
+                        }
                         window.onclick = function(event) {
                             if (!event.target.matches('.dropbtn')) {
-                                let menu = document.getElementById("menu");
-                                if (menu && menu.classList.contains('show')) {
-                                    menu.classList.remove('show');
-                                }
+                                document.getElementById('menu')?.classList.remove('show');
                             }
                         }
-                </script>
-            @endauth
+                    </script>
+                @endauth
                 @guest
                     <a href="/login" class="hidden text-sm font-semibold text-slate-100 transition hover:text-white md:inline">Entrar</a>
                     <a href="/register" class="hidden rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100 md:inline">Cadastrar</a>
                 @endguest
                 <h1 class="text-white">|</h1>
-                <button type="button" class="relative flex items-center gap-2 rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
-                    <span>🛒</span>
-                    <span class="hidden md:inline">Carrinho</span>
+                <button type="button" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
+                    <span>🛒</span><span class="hidden md:inline">Carrinho</span>
                     <span class="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white" id="carrinhoCountBadge">0</span>
                 </button>
             </div>
@@ -738,12 +738,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         @auth
                                             @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                            <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20">
+                                            <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                                 @csrf
                                                 @if ($isFavorito)
                                                     @method('DELETE')
                                                 @endif
-                                                <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                                <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
                                                     <i class="fa-solid fa-heart"></i>
                                                 </button>
                                             </form>
@@ -811,25 +811,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 </form>
 
-                                @auth
-                                    @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                    <form
-                                        action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}"
-                                        method="POST"
-                                        class="mt-2"
-                                    >
-                                        @csrf
-                                        @if ($isFavorito)
-                                            @method('DELETE')
-                                        @endif
-                                        <button
-                                            type="submit"
-                                            class="w-full rounded-lg border border-amber-200 py-2 text-xs font-black text-amber-700 transition hover:bg-amber-50"
-                                        >
-                                            {{ $isFavorito ? 'Remover favorito' : 'Favoritar produto' }}
-                                        </button>
-                                    </form>
-                                @endauth
                             </article>
 
                         @endforeach
@@ -871,106 +852,19 @@ document.addEventListener('DOMContentLoaded', function() {
     </main>
 
 
-<!--CARRINHO-->
+@include('partials.cart-modal')
 
-    <div id="cartModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/55 p-4">
-        <div class="flex max-h-[80vh] w-full max-w-md flex-col rounded-2xl bg-white shadow-xl">
-            <div class="flex items-center justify-between border-b p-6">
-                <h2 class="text-xl font-black">Meu Carrinho</h2>
-                <button onclick="closeCartModal()" class="text-slate-500 transition hover:text-slate-700">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="flex-1 overflow-y-auto p-6" id="cartContent">
-                <p class="text-center text-slate-500">Carregando...</p>
-            </div>
-
-            <div class="space-y-2 border-t p-6">
-                <div class="flex justify-between text-lg font-black">
-                    <span>Total:</span>
-                    <span id="cartTotal">R$ 0,00</span>
-                </div>
-                <button onclick="finalizarPedido()" class="w-full rounded-lg bg-emerald-600 py-2 font-black text-white transition hover:bg-emerald-500">Finalizar pedido</button>
-                <button onclick="closeCartModal()" class="w-full rounded-lg bg-slate-200 py-2 font-black text-slate-700 transition hover:bg-slate-300">Continuar comprando</button>
-            </div>
-        </div>
-    </div>
-
-<div class="absolute z-10 flex w-full right-52 mt-12 justify-end">
-    <a class="QuerOfertasBtn" target="_blank" href="/register">
-        Cadastre-se!
-    </a>
-</div>
 <picture>
     <img src="{{ asset('QuerOfertas.jpg') }}" class="w-full mt-5" alt="Quer Oferta" decoding="async">
 </picture>
-<footer class="bg-slate-800 glass text-white pt-5 pb-3">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-lg-3 mx-auto mt-3">
-                <a href="/" class="shrink-0">
-                    <picture>
-                        <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                        <img src="/LOGO_FOCCUS.png" class="w-50 mb-2 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
-                    </picture>
-                </a>
-                <p>Desde 2024 sendo sua parceira em soluções de comercialização e distribuição na região de São Paulo.</p>
-                <div class="d-flex gap-3 mt-3">
-                    <a href="https://www.instagram.com/foccus.dist/" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/foccus.dist/" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-facebook"></i></a>
-                    <a href="https://wa.me/5511937530312" target="_blank" class="text-slate-400 hover-warning" style="font-size: 1.2rem;"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-
-            <div class="col-md-2 col-lg-2 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-bold text-white">Links úteis</h5>
-                <p><a href="/" class="text-white" style="text-decoration: none;">Início</a></p>
-                <p><a href="/carrinho" class="text-white" style="text-decoration: none;">Meu Carrinho</a></p>
-            </div>
-
-            <div class="col-md-3 col-lg-3 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-bold text-white">Contato</h5>
-                <p class="small"><i class="fas fa-home mr-3 text-slate-400"></i> R. Cembira, 922 - Vila Curuçá Velha, SP</p>
-                <p class="small"><i class="fas fa-envelope mr-3 text-slate-400"></i> contato@foccus.com.br</p>
-                <p class="small"><i class="fas fa-phone mr-3 text-slate-400"></i> (11) 93753-0312</p>
-            </div>
-
-            <div class="col-md-3 col-lg-4 mx-auto mt-3">
-                <h5 class="text-uppercase mb-4 font-bold text-white">Localização</h5>
-                <div class="rounded overflow-hidden border border-secondary" style="height: 150px;">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.182283038676!2d-46.42557612386127!3d-23.49001375902123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce63e9f4560417%3A0xc00570b55ec90013!2sR.%20Cembira%2C%20922%20-%20Vila%20Curu%C3%A7%C3%A1%20Velha%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2008032-010!5e0!3m2!1spt-BR!2sbr!4v1715000000000!5m2!1spt-BR!2sbr"
-                        width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
-                </div>
-            </div>
-        </div>
-
-        <hr class="mb-4 mt-5 border-secondary">
-
-        <div class="row ">
-            <div class="col-md-12 text-center">
-                <p class="mb-2 small">© 2026 Copyright: <strong>Foccus Comercial</strong></p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<style>
-    .hover-warning:hover {
-        color: #ffc107 !important;
-        transition: 0.3s;
-    }
-</style>
+@include('partials.store-footer')
      <!-- Modal -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" defer integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/carrinho.js') }}" defer></script>
+    <script src="{{ asset('JS/carrinho.js') }}" defer></script>
+    <script src="{{ asset('JS/favoritos.js') }}" defer></script>
     <script id="#userwayAccessibilityIcon" src="https://cdn.userway.org/widget.js" data-account="wHedvuvp49" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

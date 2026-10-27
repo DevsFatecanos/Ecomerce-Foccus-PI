@@ -6,6 +6,9 @@
     <title>Carrinho | Distribuidora Foccus</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{{ asset('JS/favoritos.js') }}" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
@@ -25,33 +28,30 @@
     </style>
 </head>
 <body class="min-h-screen text-slate-900">
-    <nav class="bg-slate-500 text-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center gap-8">
+    <nav class="sticky top-0 z-50 border-b border-slate-700 bg-[#465367] text-white">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 md:gap-4 md:px-8">
             <a href="/" class="flex-shrink-0">
                 <picture>
-                <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                <img src="/LOGO_FOCCUS.png" class="w-40 brightness-0 invert" alt="Logo Foccus" decoding="async">
-            </picture>
+                    <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
+                    <img src="/LOGO_FOCCUS.png" class="w-24 brightness-0 invert md:w-28" alt="Logo Foccus" decoding="async">
+                </picture>
             </a>
-
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 @auth
-                    <a href="{{ route('favoritos.index') }}" class="bg-white/10 px-4 py-2 rounded-full hover:bg-white/20 transition flex items-center gap-2">
-                        <span class="text-sm">❤</span>
-                        <span class="text-xs font-bold hidden md:inline">Favoritos</span>
+                    <a href="{{ route('favoritos.index') }}" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.8 8.7c0 5.1-8.8 10-8.8 10s-8.8-4.9-8.8-10a4.6 4.6 0 0 1 8.8-1.8 4.6 4.6 0 0 1 8.8 1.8Z"/></svg>
+                        <span class="hidden text-xs font-bold md:inline">Favoritos</span>
                     </a>
-                    <a href="{{ route('pedidos.index') }}" class="bg-white/10 px-4 py-2 rounded-full hover:bg-white/20 transition flex items-center gap-2">
-                        <span class="text-sm">📦</span>
-                        <span class="text-xs font-bold hidden md:inline">Historico</span>
+                    <a href="{{ route('pedidos.index') }}" class="flex items-center gap-2 rounded-full border border-transparent bg-[#344254] px-3 py-2 text-sm font-bold text-white transition hover:border-[#2d394a] hover:bg-[#2d394a]">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h16v15H4zM8 3.5v4M16 3.5v4M4 10h16M8 14h3M8 17h6"/></svg>
+                        <span class="hidden text-xs font-bold md:inline">Historico</span>
                     </a>
                 @endauth
-                <a href="/carrinho" class="relative bg-slate-800 px-4 py-2 rounded-full hover:bg-slate-700 transition flex items-center gap-2">
-                    <span class="text-sm">🛒</span>
-                    <span class="text-xs font-bold hidden md:inline">Carrinho</span>
+                <a href="/carrinho" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.2 11.1a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 1.9-1.4L22 9H6M10 21h.01M18 21h.01"/></svg>
+                    <span class="hidden md:inline">Carrinho</span>
                     @if ($quantidadeTotal > 0)
-                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">
-                            {{ $quantidadeTotal }}
-                        </span>
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] font-black rounded-full w-5 h-5 flex items-center justify-center">{{ $quantidadeTotal }}</span>
                     @endif
                 </a>
             </div>
@@ -74,20 +74,20 @@
         <div class="grid gap-8 lg:grid-cols-[1.5fr_0.9fr]">
             <section class="space-y-4">
                 @forelse ($itens as $item)
-                    <article class="rounded-3xl border border-slate-100 bg-white p-4 shadow-sm md:p-5">
+                    <article class="store-product-card rounded-3xl border border-slate-100 bg-white p-4 shadow-sm md:p-5">
                         <div class="flex flex-col gap-4 md:flex-row md:items-center">
                             <div class="h-24 w-24 shrink-0 relative">
                                 <x-product-image :url="$item['produto']->url_imagem" :ean="$item['produto']->codigo_barras" class="h-full w-full object-cover" wrapper-class="overflow-hidden rounded-2xl bg-slate-100 h-full w-full" />
 
                                 @auth
                                     @php $isFavorito = in_array($item['produto']->id, $favoritosIds ?? [], true); @endphp
-                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $item['produto']) : route('favoritos.store', $item['produto']) }}" method="POST" class="absolute right-0 top-0 z-20">
+                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $item['produto']) : route('favoritos.store', $item['produto']) }}" method="POST" class="absolute right-0 top-0 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $item['produto']) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $item['produto']) }}">
                                         @csrf
                                         @if ($isFavorito)
                                             @method('DELETE')
                                         @endif
-                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="m-2 h-8 w-8 rounded-full shadow flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
-                                            <i class="fa-solid fa-heart text-sm"></i>
+                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="m-2 h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                            <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>
                                 @endauth
@@ -122,18 +122,6 @@
                                         <button type="submit" class="rounded-xl border border-red-200 px-4 py-2 text-sm font-bold text-red-600 transition hover:bg-red-50">Remover</button>
                                     </form>
 
-                                    @auth
-                                        @php $isFavorito = in_array($item['produto']->id, $favoritosIds ?? [], true); @endphp
-                                        <form action="{{ $isFavorito ? route('favoritos.destroy', $item['produto']) : route('favoritos.store', $item['produto']) }}" method="POST">
-                                            @csrf
-                                            @if ($isFavorito)
-                                                @method('DELETE')
-                                            @endif
-                                            <button type="submit" class="rounded-xl border border-amber-200 px-4 py-2 text-sm font-bold text-amber-700 transition hover:bg-amber-50">
-                                                {{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}
-                                            </button>
-                                        </form>
-                                    @endauth
                                 </div>
                             </div>
                         </div>
@@ -189,7 +177,7 @@
 
                 <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
                     @foreach ($sugestoes as $produto)
-                        <article class="overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+                        <article class="store-product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
                             <div class="relative overflow-hidden rounded-xl bg-slate-100 aspect-square mb-0">
                                 <a href="{{ route('produtos.show', $produto) }}" class="block h-full w-full">
                                     <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" class="h-full w-full object-contain p-2" />
@@ -197,12 +185,12 @@
 
                                 @auth
                                     @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20">
+                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                         @csrf
                                         @if ($isFavorito)
                                             @method('DELETE')
                                         @endif
-                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="h-10 w-10 rounded-full shadow flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
                                             <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>
@@ -216,21 +204,9 @@
                             <form action="{{ route('carrinho.add', $produto) }}" method="POST" class="mt-3">
                                 @csrf
                                 <input type="hidden" name="quantidade" value="1">
-                                <button type="submit" class="w-full rounded-xl bg-slate-900 py-2 text-sm font-bold text-white transition hover:bg-slate-800">Adicionar</button>
+                                <button type="submit" class="w-full rounded-xl bg-blue-700 py-2 text-sm font-bold text-white transition hover:bg-blue-600">Adicionar</button>
                             </form>
 
-                            @auth
-                                @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="mt-3">
-                                    @csrf
-                                    @if ($isFavorito)
-                                        @method('DELETE')
-                                    @endif
-                                    <button type="submit" class="w-full rounded-xl border border-amber-200 py-2 text-sm font-bold text-amber-700 transition hover:bg-amber-50">
-                                        {{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}
-                                    </button>
-                                </form>
-                            @endauth
                         </article>
                     @endforeach
                 </div>
@@ -238,8 +214,6 @@
         @endif
     </main>
 
-    <footer class="mt-8 border-t border-slate-200 bg-white/70 px-8 py-6 text-center text-sm text-slate-400 backdrop-blur">
-        &copy; {{ date('Y') }} Distribuidora Foccus - Todos os direitos reservados.
-    </footer>
+    @include('partials.store-footer')
 </body>
 </html>

@@ -27,7 +27,11 @@ class SearchController extends Controller
         $produtos = $query->orderBy('nome')->paginate(24)->withQueryString();
 
         $favoritosIds = auth()->check()
-            ? Favorito::query()->where('user_id', auth()->id())->pluck('produto_id')->all()
+            ? Favorito::query()
+                ->where('user_id', auth()->id())
+                ->pluck('produto_id')
+                ->map(static fn ($produtoId): int => (int) $produtoId)
+                ->all()
             : [];
 
         return view('search', [
