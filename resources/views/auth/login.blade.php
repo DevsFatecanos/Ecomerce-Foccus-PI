@@ -48,6 +48,13 @@
                 </div>
             @endif
 
+            @if (session('success'))
+                <div class="mb-6 p-3 bg-green-50 border-l-4 border-green-500 text-green-700 text-xs rounded flex items-center gap-2">
+                    <i class="fas fa-circle-check"></i>
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
             <form action="{{ route('login') }}" method="POST" class="space-y-5">
                 @csrf
                 
@@ -61,7 +68,9 @@
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-xs font-bold uppercase text-gray-400">Senha</label>
-                        <a href="#" class="text-[10px] text-slate-500 hover:underline">Esqueceu a senha?</a>
+                        <button type="button" onclick="toggleForgotModal(true)" class="text-[10px] text-slate-500 hover:underline">
+                            Esqueceu a senha?
+                        </button>
                     </div>
                     <div class="relative">
                         <input type="password" name="password" id="password" required
@@ -90,6 +99,46 @@
         </div>
     </div>
 
+<!-- Modal de recuperação de senha -->
+<div id="forgotModal"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 {{ session('status') || $errors->forgot->any() ? '' : 'hidden' }}"
+     onclick="if(event.target === this) toggleForgotModal(false)">
+    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+        <h2 class="text-xl font-black text-gray-800 mb-1">Recuperar senha</h2>
+        <p class="text-gray-500 text-sm mb-5">Informe o e-mail cadastrado e enviaremos um link para você criar uma nova senha.</p>
+
+        @if (session('status'))
+            <div class="mb-4 p-3 bg-green-50 border-l-4 border-green-500 text-green-700 text-xs rounded">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <form action="{{ route('password.email') }}" method="POST" class="space-y-4">
+            @csrf
+            <div>
+                <label class="block text-xs font-bold uppercase text-gray-400 mb-1">E-Mail</label>
+                <input type="email" name="email" id="forgot_email" value="{{ old('email') }}" required
+                       class="w-full border-gray-200 border rounded-lg px-4 py-3 focus:border-slate-500 focus:ring-2 focus:ring-slate-200 outline-none transition"
+                       placeholder="seu@email.com">
+                @if ($errors->forgot->has('email'))
+                    <p class="text-red-500 text-xs mt-1">{{ $errors->forgot->first('email') }}</p>
+                @endif
+            </div>
+
+            <div class="flex gap-3 pt-2">
+                <button type="submit" class="flex-1 bg-slate-800 text-white py-3 rounded-lg font-bold hover:bg-slate-900 transition">
+                    Enviar link
+                </button>
+                <button type="button" onclick="toggleForgotModal(false)"
+                        class="flex-1 bg-gray-200 text-slate-600 py-3 rounded-lg font-bold hover:bg-gray-300 transition">
+                    Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal de recuperação de senha -->
+
 <script>
     function togglePassword(fieldId, iconId) {
         const field = document.getElementById(fieldId);
@@ -104,6 +153,16 @@
             icon.classList.add('fa-eye');
         }
     }
+
+    function toggleForgotModal(show) {
+        document.getElementById('forgotModal').classList.toggle('hidden', !show);
+        if (show) document.getElementById('forgot_email').focus();
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') toggleForgotModal(false);
+    });
+
 </script>
 
 </body>
