@@ -36,13 +36,13 @@
 
                     @auth
                         @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                        <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-4 top-4 z-30">
+                        <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-4 top-4 z-30" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                             @csrf
                             @if ($isFavorito)
                                 @method('DELETE')
                             @endif
-                            <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="h-12 w-12 rounded-full shadow-lg flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
-                                <i class="fa-solid fa-heart text-lg"></i>
+                            <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                <i class="fa-solid fa-heart"></i>
                             </button>
                         </form>
                     @endauth
@@ -159,21 +159,6 @@
                     </button>
                 </form>
 
-                @auth
-                    @php
-                        $isFavorito = $produto->favoritos->contains('user_id', auth()->id());
-                    @endphp
-                    <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST">
-                        @csrf
-                        @if ($isFavorito)
-                            @method('DELETE')
-                        @endif
-                        <button type="submit" class="w-full rounded-xl border border-amber-200 px-6 py-3 text-sm font-black text-amber-700 transition hover:bg-amber-50">
-                            {{ $isFavorito ? 'Remover dos favoritos' : 'Favoritar produto' }}
-                        </button>
-                    </form>
-                @endauth
-
                 <!-- Info Rápida -->
                 <div class="grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-white p-4">
                     <div class="text-center">
@@ -253,7 +238,7 @@
                             $percentual = $temDesc ? max(1, (int) round((1 - ($preco / $precoAntigo)) * 100)) : 0;
                         @endphp
 
-                        <article class="overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition hover:shadow-lg hover:border-blue-200">
+                        <article class="store-product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm transition hover:shadow-lg hover:border-blue-200">
                             <div class="relative mb-4 overflow-hidden rounded-xl bg-slate-100 aspect-square">
                                 <a href="{{ route('produtos.show', $related->id) }}" class="block h-full">
                                     <x-product-image :url="$related->url_imagem" :ean="$related->codigo_barras" alt="{{ $related->nome }}" class="h-full w-full object-contain p-2 transition hover:scale-105" />
@@ -266,12 +251,12 @@
                                 @endif
                                 @auth
                                     @php $isFavorito = in_array($related->id, $favoritosIds ?? [], true); @endphp
-                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $related) : route('favoritos.store', $related) }}" method="POST" class="absolute right-3 top-3 z-20">
+                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $related) : route('favoritos.store', $related) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $related) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $related) }}">
                                         @csrf
                                         @if ($isFavorito)
                                             @method('DELETE')
                                         @endif
-                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="h-10 w-10 rounded-full shadow flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
                                             <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>

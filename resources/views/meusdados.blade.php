@@ -19,6 +19,7 @@
     <link rel="shortcut icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
 </head>
 <body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans p-4">
     <section class="main w-full max-w-[950px]">
@@ -82,10 +83,10 @@
 
                     <!-- Seção de Botões -->
                     <div class="mt-[20px] flex flex-col gap-[10px] items-stretch sm:flex-row sm:items-start">
-                        <a href="{{ route('change-password.form') }}" class="w-1/2 bg-[#465367] text-white border border-[#ddd] p-[15px] rounded-[8px] text-[14px] font-semibold cursor-pointer transition-all duration-500 hover:bg-[#888888] text-center no-underline">
+                        <a href="{{ route('change-password.form') }}" class="w-full sm:w-1/2 bg-[#465367] text-white border border-[#ddd] p-[15px] rounded-[8px] text-[14px] font-semibold cursor-pointer transition-all duration-500 hover:bg-[#888888] text-center no-underline">
                             <i class="fas fa-lock"></i> Trocar Senha
                         </a>
-                        <button id="Submit" type="submit" class="w-1/2 bg-[#1e293b] text-white p-[15px] rounded-[8px] text-[14px] font-bold cursor-pointer hover:bg-slate-700 transition-colors">
+                        <button id="Submit" type="submit" class="w-full sm:w-1/2 bg-[#1e293b] text-white p-[15px] rounded-[8px] text-[14px] font-bold cursor-pointer hover:bg-slate-700 transition-colors">
                             Salvar Alterações
                         </button>
                     </div>

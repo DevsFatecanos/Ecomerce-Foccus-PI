@@ -15,6 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
     <link rel="preload" href="/LOGO_FOCCUS.webp" as="image" type="image/webp">
 
@@ -55,6 +56,58 @@
             background: rgba(15, 23, 42, 0.82);
         }
 
+        .home-category-bar {
+            position: relative;
+            background: rgba(248, 250, 252, 0.98);
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+
+        .home-category-inner {
+            justify-content: center;
+            scrollbar-width: none;
+        }
+
+        @media (max-width: 767px) {
+            .home-category-inner {
+                justify-content: flex-start;
+            }
+        }
+
+        .home-category-inner::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-categoria {
+            display: inline-flex;
+            flex: 0 0 auto;
+            align-items: center;
+            min-height: 30px;
+            border-radius: 9999px;
+            padding: 0 10px;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-categoria:hover,
+        .nav-categoria:focus-visible {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .nav-categoria-offers {
+            color: #dc2626;
+        }
+
+        .nav-categoria-offers:hover,
+        .nav-categoria-offers:focus-visible {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
         .reveal {
             opacity: 1;
             transform: translateY(0);
@@ -73,7 +126,7 @@
 
         .swiper {
             width: 100%;
-            padding: 8px 4px 38px;
+            padding: 6px 4px 30px;
         }
 
         .swiper-pagination {
@@ -197,52 +250,82 @@
 
 .dropdown {
     position: relative;
-    display: inline-block;
-    background-color:white;
-    padding:10px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-
-.dropdown:hover{
- background-color: #a9abae;
-transform: translateY(-2px);
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
+    right: 0;
+    z-index: 1001;
+    min-width: 200px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
     background: #fff;
-    border: 1px solid #ccc;
-    min-width: 150px;
-}
-
-.dropdown-content a,
-.dropdown-content button {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    border: none;
-    background: none;
-    width: 100%;
-    text-align: left;
-    color:#424242;
-}
-
-.dropdown-content a:hover {
-    background-color:#ccc;
-}
-
-.dropdown-content button:hover {
-    background-color:#ccc;
+    padding: 0.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
 
 .dropdown-content.show {
     display: block;
 }
+
+.dropdown-content a {
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #475569;
+    font-size: 0.875rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.dropbtn {
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    background: #344254;
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.dropbtn:hover {
+    background: #2d394a;
+}
+
+.dropdown-content button {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    color: #475569;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropdown-content button:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+        @media (max-width: 640px) {
+            .dropbtn {
+                max-width: 112px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        }
 
 .conteiner-img{
     position:absolute;
@@ -255,9 +338,9 @@ transform: translateY(-2px);
 }
 
 .conteiner-img a{
-padding: 10px;
-font-size: small;
-border-radius:20px;
+padding: 8px;
+font-size: 12px;
+border-radius:16px;
 background-color:#5f6f86;
 font-weight: 500 ;
 transition: background-color 0.3s ease, transform 0.2s ease;
@@ -266,7 +349,7 @@ text-align: center;
 
 
 .conteiner-img #compre {
-   padding: 10px 100px 10px 100px;
+    padding: 8px 60px;
    justify-self:center;
 
 }
@@ -279,6 +362,24 @@ background-color:#a9abae;
 
 #userwayAccessibilityIcon {
     margin-top: 500px;
+}
+
+.QuerOfertasBtn{
+    padding: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+    font-size:big;
+    border-radius:20px;
+    background-color:#5f6f86;
+    color:white;
+    font-weight: 500 ;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+}
+
+.QuerOfertasBtn:hover{    
+transform: translateY(-2px);
+background-color:#a9abae;
 }
 
      </style>
@@ -344,23 +445,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-------------------------------->
-    <nav style="padding: 6px;" class="glass sticky top-0 z-50 border-b border-white/10">
-        <div class="w-full fixed top-0 left-0 z-20 text-center text-white bg-slate-600 font-sans text-sm py-0.5"><!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
-    <section class="Nav-catalogo bg-slate-100 w-full flex fixed justify-center z-40  ">
-        <div class="flex w-3/4 max-w-4xl justify-between gap-3 px-3 py-1 text-xs md:text-sm">
-                <p class="text-slate-600 font-bold" >Compre por Categoria!</p>
-                @foreach($categoriaLista as $nomeCategoria)
-                    <a class="nav-categoria text-slate-600 hover:text-slate-900 hover:font-bold"
-                       href="#catalogo"
-                       data-categoria-link="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</a>
-                @endforeach
-                <a class="nav-categoria text-red-600 hover:text-slate-900 font-bold"
-                   href="#ofertas"
-                   data-categoria-link="__ofertas__">Ofertas</a>
-            <div>
-        </div>
-    </section></div>
-        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 pb-2 pt-8 md:px-8">
+    <nav class="sticky top-0 z-50 bg-[#465367]">
+        <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-8 lg:flex-nowrap lg:gap-4">
             <a href="/" class="shrink-0">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
@@ -368,14 +454,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 </picture>
             </a>
 
-
-            <div class="flex-1 max-w-md hidden lg:block">
+            <div class="order-3 w-full max-w-none lg:order-none lg:flex-1 lg:max-w-md">
                 <form action="/search" method="GET" class="relative">
-                    <input type="text"
-                        name="q"
-                        placeholder="O que você procura hoje?"
-                        class="w-full bg-slate-600 text-white text-sm rounded-full py-2 px-10 focus:outline-none focus:ring-2 focus:ring-slate-300 placeholder-slate-300 transition-all border border-transparent focus:bg-slate-700">
-                    <div class="absolute left-3 top-2.5 text-slate-300">
+                    <input type="text" name="q" placeholder="O que você procura?" class="w-full rounded-full border border-slate-300 bg-white py-2 pl-10 pr-3 text-sm text-slate-900 placeholder-slate-500 transition-all focus:border-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-300">
+                    <div class="absolute left-3 top-2.5 text-black">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                         </svg>
@@ -417,26 +499,41 @@ document.addEventListener('DOMContentLoaded', function() {
                     // fechar ao clicar fora
                         window.onclick = function(event) {
                             if (!event.target.matches('.dropbtn')) {
-                                let menu = document.getElementById("menu");
-                                if (menu && menu.classList.contains('show')) {
-                                    menu.classList.remove('show');
-                                }
+                                document.getElementById('menu')?.classList.remove('show');
                             }
                         }
-                </script>
-            @endauth
+                    </script>
+                @endauth
                 @guest
                     <a href="/login" class="hidden text-sm font-semibold text-slate-100 transition hover:text-white md:inline">Entrar</a>
                     <a href="/register" class="hidden rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100 md:inline">Cadastrar</a>
+                    <a href="/login" aria-label="Entrar" title="Entrar" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:hidden"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i></a>
+                    <a href="/register" aria-label="Cadastrar" title="Cadastrar" class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 md:hidden"><i class="fa-solid fa-user-plus" aria-hidden="true"></i></a>
                 @endguest
-                <h1 class="text-white">|</h1>
-                <button type="button" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
-                    <span>🛒</span>
-                    <span class="hidden md:inline">Carrinho</span>
+                <h1 class="hidden text-white md:block">|</h1>
+                <button type="button" aria-label="Abrir carrinho" title="Carrinho" class="relative flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-slate-900 transition hover:bg-slate-100" id="btnCart" onclick="openCartModal()">
+                    <span>🛒</span><span class="hidden md:inline">Carrinho</span>
                     <span class="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-black text-white" id="carrinhoCountBadge">0</span>
                 </button>
             </div>
         </div>
+        <!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
+        <div class="home-category-bar z-40 w-full font-sans">
+            <section class="w-full">
+                <div class="home-category-inner mx-auto flex w-full max-w-7xl items-center gap-1 overflow-x-auto px-4 py-1 md:gap-2 md:px-8">
+                        <p class="mr-1 shrink-0 text-[10px] font-black uppercase text-slate-500 md:mr-2 md:text-[11px]">Categorias</p>
+                        @foreach($categoriaLista as $nomeCategoria)
+                            <a class="nav-categoria"
+                            href="#catalogo"
+                            data-categoria-link="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</a>
+                        @endforeach
+                        <a class="nav-categoria nav-categoria-offers"
+                        href="#ofertas"
+                        data-categoria-link="__ofertas__">Ofertas</a>
+                </div>
+            </section>
+        </div>
+        <!--NAVBAR DE CATEGORIAS DE PRODUTOS ABAIXO DO HEADER-->
     </nav>
 
     @if (session('success') || session('error'))
@@ -448,8 +545,8 @@ document.addEventListener('DOMContentLoaded', function() {
     @endif
 
 
-    <main class="mx-auto max-w-7xl px-4 py-8 md:px-8 md:py-10">
-        <section class=" reveal mb-14  shadow-lg">
+    <main class="mx-auto max-w-7xl px-4 py-6 md:px-8 md:py-8">
+        <section class=" reveal mb-12 shadow-lg">
             <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active" data-bs-interval="5000">
@@ -480,12 +577,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </section>
 
-        <section id="ofertas" class="reveal mb-12">
+        <section id="ofertas" class="reveal mb-10">
             <div class="mb-4 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-red-100 text-red-600"><i class="fa-solid fa-fire text-xl"></i></span>
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100 text-red-600"><i class="fa-solid fa-fire text-lg"></i></span>
                     <div>
-                        <h2 class="text-xl font-bold text-slate-900">Ofertas da semana</h2>
+                        <h2 class="text-lg font-bold text-slate-900">Ofertas da semana</h2>
                         <p class="text-xs text-slate-500">Produtos selecionados</p>
                     </div>
                 </div>
@@ -508,24 +605,26 @@ document.addEventListener('DOMContentLoaded', function() {
                         @endphp
                         <div class="swiper-slide">
                             <article class="flex flex-col overflow-hidden rounded-xl border bg-white shadow {{ $temDesconto ? 'border-red-200' : 'border-slate-200' }}">
-                                <div class="relative flex h-32 items-center justify-center bg-slate-50">
-                                    <x-product-image :url="$item->url_imagem" :ean="$item->codigo_barras" alt="{{ $item->nome }}" class="max-h-28 max-w-full object-contain" />
+                                <div class="relative flex h-28 items-center justify-center bg-slate-50">
+                                    <a href="{{ route('produtos.show', $item->id) }}" class="flex h-full w-full items-center justify-center" aria-label="Ver {{ $item->nome }}">
+                                        <x-product-image :url="$item->url_imagem" :ean="$item->codigo_barras" alt="{{ $item->nome }}" class="max-h-24 max-w-full object-contain" />
+                                    </a>
                                     @if($temDesconto)
                                         <span class="absolute left-2 top-2 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">-{{ $percentualDesconto }}%</span>
                                     @endif
                                 </div>
-                                <div class="flex flex-1 flex-col p-3">
-                                    <h3 class="truncate text-sm font-bold text-slate-800">{{ $item->nome }}</h3>
+                                <div class="flex flex-1 flex-col p-2.5">
+                                    <h3 class="truncate text-sm font-bold text-slate-800"><a href="{{ route('produtos.show', $item->id) }}" class="text-inherit no-underline hover:text-blue-700">{{ $item->nome }}</a></h3>
                                     <p class="mt-1 text-xs text-slate-500">{{ $item->categoria ?? 'Oferta' }}</p>
 
                                     <div class="mt-2">
                                         @if($temDesconto)
                                             <span class="text-xs text-slate-400 line-through">R$ {{ number_format($precoAntigo, 2, ',', '.') }}</span>
                                         @endif
-                                        <p class="text-lg font-bold {{ $temDesconto ? 'text-red-600' : 'text-blue-700' }}">R$ {{ number_format($precoAtual, 2, ',', '.') }}</p>
+                                        <p class="text-base font-bold {{ $temDesconto ? 'text-red-600' : 'text-blue-700' }}">R$ {{ number_format($precoAtual, 2, ',', '.') }}</p>
                                     </div>
 
-                                    <form action="{{ route('carrinho.add', $item, false) }}" method="POST" class="mt-auto pt-3" onsubmit="return addToCart(event)">
+                                    <form action="{{ route('carrinho.add', $item, false) }}" method="POST" class="mt-auto pt-2" onsubmit="return addToCart(event)">
                                         @csrf
                                         <div class="mb-2 flex items-center justify-center gap-2">
                                             <label class="text-xs font-bold text-slate-500">Qtd:</label>
@@ -549,26 +648,26 @@ document.addEventListener('DOMContentLoaded', function() {
         </section>
 
         <section id="catalogo">
-            <div class="mb-7 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm md:p-6">
-                <div class="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                <div class="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+                <div class="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                     <div>
-                        <h2 class="text-3xl font-black text-slate-900">Catalogo por categoria</h2>
-                        <p class="text-slate-500">Filtro em tempo real por nome, faixa de preco e categoria.</p>
+                        <h2 class="text-2xl font-black text-slate-900">Catalogo por categoria</h2>
+                        <p class="text-sm text-slate-500">Filtro em tempo real por nome, faixa de preco e categoria.</p>
                     </div>
                     <button type="button" id="clearFilters" class="rounded-full border border-slate-300 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-slate-700 transition hover:bg-slate-100">Limpar filtros</button>
                 </div>
 
-                <div class="grid gap-3 md:grid-cols-5">
+                <div class="grid gap-2 md:grid-cols-5">
                     <div class="md:col-span-2">
                         <label class="mb-1 block text-xs font-black uppercase tracking-[0.2em] text-slate-500">Pesquisa por nome</label>
                         <div class="relative">
                             <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-3 top-3 text-slate-400"></i>
-                            <input id="productSearch" type="text" placeholder="Ex: detergente, arroz, refrigerante" class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
+                            <input id="productSearch" type="text" placeholder="Ex: detergente, arroz, refrigerante" class="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-10 pr-3 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
                         </div>
                     </div>
                     <div>
                         <label class="mb-1 block text-xs font-black uppercase tracking-[0.2em] text-slate-500">Categoria</label>
-                        <select id="categoryFilter" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
+                        <select id="categoryFilter" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
                             <option value="">Todas</option>
                             @foreach($categoriaLista as $nomeCategoria)
                                 <option value="{{ Illuminate\Support\Str::slug($nomeCategoria) }}">{{ $nomeCategoria }}</option>
@@ -577,11 +676,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div>
                         <label class="mb-1 block text-xs font-black uppercase tracking-[0.2em] text-slate-500">Preco minimo (R$)</label>
-                        <input id="minPriceFilter" type="number" min="0" step="0.01" placeholder="Sem limite" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
+                        <input id="minPriceFilter" type="number" min="0" step="0.01" placeholder="Sem limite" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
                     </div>
                     <div>
                         <label class="mb-1 block text-xs font-black uppercase tracking-[0.2em] text-slate-500">Preco maximo (R$)</label>
-                        <input id="maxPriceFilter" type="number" min="0" step="0.01" placeholder="Sem limite" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
+                        <input id="maxPriceFilter" type="number" min="0" step="0.01" placeholder="Sem limite" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none transition focus:border-blue-500 focus:bg-white">
                     </div>
                 </div>
 
@@ -595,7 +694,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             </div>
 
-            <div class="space-y-10" id="catalogSections">
+            <div class="space-y-8" id="catalogSections">
                 @foreach($categoriaLista as $nomeCategoria)
                     @php
                         $slug = Illuminate\Support\Str::slug($nomeCategoria);
@@ -612,7 +711,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     @php
-        $produtosPorSlide = 3;
+        $produtosPorSlide = 4;
         $lotes = $produtosCategoria->chunk($produtosPorSlide);
     @endphp
 
@@ -624,7 +723,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
-                    <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
 
                         @foreach($lote as $produto)
 
@@ -641,17 +740,17 @@ document.addEventListener('DOMContentLoaded', function() {
                                     : 0;
                             @endphp
 
-                            <article class="product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm"
+                            <article class="product-card overflow-hidden rounded-xl border border-slate-100 bg-white p-2.5 shadow-sm"
                                 data-produto-card
                                 data-categoria="{{ $slug }}"
                                 data-nome="{{ Illuminate\Support\Str::lower($produto->nome) }}"
                                 data-preco="{{ $preco }}"
                                 data-oferta="{{ $temDesconto ? '1' : '0' }}">
 
-                                <div class="relative mb-4 overflow-hidden rounded-xl bg-slate-100 aspect-square">
+                                <div class="relative mb-2 overflow-hidden rounded-lg bg-slate-100 aspect-[3/2]">
 
                                     <a href="{{ route('produtos.show', $produto->id) }}">
-                                        <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" alt="{{ $produto->nome }}" class="h-full w-full object-contain p-2" />
+                                        <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" alt="{{ $produto->nome }}" class="h-full w-full object-contain p-1.5" />
                                     </a>
 
                                         @if($temDesconto)
@@ -662,12 +761,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                         @auth
                                             @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                            <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20">
+                                            <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                                 @csrf
                                                 @if ($isFavorito)
                                                     @method('DELETE')
                                                 @endif
-                                                <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" class="h-10 w-10 rounded-full shadow flex items-center justify-center transition focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                                <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
                                                     <i class="fa-solid fa-heart"></i>
                                                 </button>
                                             </form>
@@ -675,8 +774,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 </div>
 
-                                <div class="mb-3">
-                                    <h4 class="line-clamp-2 text-base font-black text-slate-900">
+                                <div class="mb-2">
+                                    <h4 class="line-clamp-2 text-sm font-black text-slate-900">
                                         <a href="{{ route('produtos.show', $produto->id) }}" class="text-inherit text-decoration-none">{{ $produto->nome }}</a>
                                     </h4>
 
@@ -685,7 +784,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     </p>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-2">
 
                                     @if($temDesconto)
                                         <p class="text-xs text-slate-400 line-through">
@@ -693,7 +792,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </p>
                                     @endif
 
-                                    <p class="text-2xl font-black text-blue-700">
+                                    <p class="text-lg font-black text-blue-700">
                                         R$ {{ number_format($preco, 2, ',', '.') }}
                                     </p>
 
@@ -707,7 +806,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     @csrf
 
                                     {{-- QUANTIDADE --}}
-                                    <div class="mb-3 flex items-center gap-2">
+                                    <div class="mb-2 flex items-center gap-2">
 
                                         <label class="text-xs font-bold text-slate-500">
                                             Qtd
@@ -719,7 +818,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             value="1"
                                             min="1"
                                             max="{{ $produto->quantidade }}"
-                                            class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-blue-500"
+                                            class="w-full rounded-lg border border-slate-200 px-2.5 py-1 text-sm outline-none focus:border-blue-500"
                                         >
 
                                     </div>
@@ -727,7 +826,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     {{-- BOTÃO ADICIONAR AO CARRINHO --}}
                                     <button
                                         type="submit"
-                                        class="w-full rounded-xl bg-blue-700 py-3 text-sm font-black text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-300"
+                                        class="w-full rounded-lg bg-blue-700 py-2 text-xs font-black text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-300"
                                         {{ $produto->quantidade <= 0 ? 'disabled' : '' }}
                                     >
                                         {{ $produto->quantidade > 0 ? 'Adicionar ao carrinho' : 'Esgotado' }}
@@ -735,25 +834,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 </form>
 
-                                @auth
-                                    @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                    <form
-                                        action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}"
-                                        method="POST"
-                                        class="mt-3"
-                                    >
-                                        @csrf
-                                        @if ($isFavorito)
-                                            @method('DELETE')
-                                        @endif
-                                        <button
-                                            type="submit"
-                                            class="w-full rounded-xl border border-amber-200 py-3 text-sm font-black text-amber-700 transition hover:bg-amber-50"
-                                        >
-                                            {{ $isFavorito ? 'Remover favorito' : 'Favoritar produto' }}
-                                        </button>
-                                    </form>
-                                @endauth
                             </article>
 
                         @endforeach
@@ -888,7 +968,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" defer integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
-    <script src="{{ asset('js/carrinho.js') }}" defer></script>
+    <script src="{{ asset('JS/carrinho.js') }}" defer></script>
+    <script src="{{ asset('JS/favoritos.js') }}" defer></script>
     <script id="#userwayAccessibilityIcon" src="https://cdn.userway.org/widget.js" data-account="wHedvuvp49" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

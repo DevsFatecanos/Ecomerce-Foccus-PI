@@ -6,6 +6,9 @@
     <title>Pagamento via PIX | Distribuidora Foccus</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
 </head>
 <body class="min-h-screen bg-slate-950 px-4 py-14 text-white">
@@ -22,7 +25,7 @@
                 <img
                     src="data:image/png;base64,{{ $pedido->pix_qr_code_base64 }}"
                     alt="QR Code do PIX"
-                    class="mx-auto h-64 w-64"
+                    class="mx-auto aspect-square h-auto w-full max-w-64"
                 >
             @else
                 <p class="text-center text-slate-700">
@@ -107,5 +110,6 @@
             checarStatus();
         })();
     </script>
+    @include('partials.store-footer')
 </body>
 </html>

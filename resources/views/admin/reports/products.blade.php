@@ -2,10 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório de Produtos</title>
     <style>
         body{font-family:Arial,Helvetica,sans-serif;padding:20px}
-        table{width:100%;border-collapse:collapse}
+        .report-table{width:100%;overflow-x:auto}
+        table{width:100%;min-width:720px;border-collapse:collapse}
         th,td{border:1px solid #ddd;padding:8px}
         th{background:#f4f4f4}
     </style>
@@ -13,7 +15,7 @@
 <body>
     <h2>Relatório de Produtos</h2>
     <p>Gerado em {{ now()->toDateTimeString() }}</p>
-    <table>
+    <div class="report-table"><table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -40,6 +42,6 @@
             </tr>
             @endforeach
         </tbody>
-    </table>
+    </table></div>
 </body>
 </html>

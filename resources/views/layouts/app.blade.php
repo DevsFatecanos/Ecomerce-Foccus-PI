@@ -178,7 +178,7 @@
             font-size: 0.875rem;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 767.98px) {
             .sidebar {
                 display: none;
             }
@@ -205,12 +205,12 @@
 </style>
 
 <nav class="navbar navbar-dashboard">
-    <div class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-4 md:px-8">
+    <div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-3 py-3 md:gap-6 md:px-8 md:py-4">
         
         <a href="{{ route('admin.dashboard') }}" class="shrink-0 flex items-center gap-2 no-underline">
            <picture>
                 <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
-                <img src="/LOGO_FOCCUS.png" class="w-36 brightness-0 invert md:w-40" alt="Logo Foccus" decoding="async">
+                <img src="/LOGO_FOCCUS.png" class="w-28 brightness-0 invert md:w-40" alt="Logo Foccus" decoding="async">
            </picture>
         </a>
 
@@ -278,6 +278,23 @@
         </div>
     </div>
 </nav>
+@if (Auth::user()->is_admin)
+    <div class="d-md-none border-bottom bg-white px-3 py-2">
+        <details>
+            <summary class="cursor-pointer rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold text-slate-700">Menu do painel</summary>
+            <nav class="mt-2 grid grid-cols-2 gap-2" aria-label="Navegação do painel administrativo">
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('admin.dashboard') }}">Dashboard</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('admin.pedidos.index') }}">Pedidos</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('admin.relatorios') }}">Relatórios</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('admin.produtos.index') }}">Produtos</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('admin.produtos.create') }}">Novo produto</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="/meusdados">Meus dados</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="{{ route('change-password.form') }}">Trocar senha</a>
+                <a class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700 no-underline" href="/">Ver loja</a>
+            </nav>
+        </details>
+    </div>
+@endif
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->

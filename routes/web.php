@@ -16,10 +16,8 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminProdutoController;
 use App\Http\Controllers\AdminPedidosController;
-use App\Http\Controllers\AdminFaqController;
-use App\Http\Controllers\AdminPedidoDuvidaController;
-use App\Http\Controllers\FaqController;
-use App\Http\Controllers\PedidoDuvidaController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 Route::get('/', function () {
     $destaques = Produto::where('destaque', 1)->get();
@@ -29,6 +27,7 @@ Route::get('/', function () {
         ? Favorito::query()
             ->where('user_id', auth()->id())
             ->pluck('produto_id')
+            ->map(static fn ($produtoId): int => (int) $produtoId)
             ->all()
         : [];
 
@@ -91,6 +90,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/change-password', [UserController::class, 'changePasswordForm'])->name('change-password.form');
     Route::post('/change-password', [UserController::class, 'changePassword'])->name('change-password.update');
 });
+
+// Usuário DESLOGADO: esqueci minha senha
+Route::middleware('guest')->group(function () {
+    Route::post('/esqueci-senha', [ForgotPasswordController::class, 'sendLink'])
+        ->middleware('throttle:5,1')
+        ->name('password.email');
+
+    Route::get('/redefinir-senha/{token}', [ResetPasswordController::class, 'showForm'])
+        ->name('password.reset');
+
+    Route::post('/redefinir-senha', [ResetPasswordController::class, 'reset'])
+        ->name('password.update');
+});
+
+
 
 // Rotas de Registro
 Route::get('/empresa/{cnpj}', [EmpresaController::class, 'consultarCnpj']);
