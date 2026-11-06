@@ -41,4 +41,9 @@ class Pedido extends Model
     {
         return $this->hasMany(PedidoItem::class);
     }
+
+    public function duvidas()
+    {
+        return $this->hasMany(PedidoDuvida::class);
+    }
 }

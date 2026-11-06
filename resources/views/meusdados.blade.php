@@ -47,30 +47,37 @@
                 <h2 class="text-[24px] font-bold text-[#1a1a1a]">Seus Dados</h2>
                 <p class="text-[13px] text-[#888] mb-[30px]">Atualize ou Adicione seus dados aqui.</p>
 
-                <form method="POST" action="/meusdados/update">
+                <form method="POST" action="{{ route('meusdados.update') }}">
                       @csrf
                     <div class="mb-[20px]">
                         <label class="block text-[11px] font-bold text-[#aaa] uppercase tracking-[1px] mb-[5px]">Nome Completo</label>
-                        <input name="name" type="text" value="{{ auth()->user()->name }}" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
+                        <input name="name" type="text" value="{{ old('name', auth()->user()->name) }}" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
                     </div>
 
                     <div class="flex flex-col gap-[20px] mb-[20px] sm:flex-row">
                         <div class="flex-1">
                             <label class="block text-[11px] font-bold text-[#aaa] uppercase tracking-[1px] mb-[5px]">CPF</label>
-                            <input name="cpf" id="cpf" type="text" value="{{ auth()->user()->cpf }}" placeholder="123.456.789-10" data-format="999.999.999-99" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
+                            <input name="cpf" id="cpf" type="text" value="{{ old('cpf', auth()->user()->cpf) }}" placeholder="123.456.789-10" data-format="999.999.999-99" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
                         </div>
                         <div class="flex-1">
                             <label class="block text-[11px] font-bold text-[#aaa] uppercase tracking-[1px] mb-[5px]">Telefone</label>
-                            <input name="telefone" id="tel" type="text" value="{{ auth()->user()->telefone }}" placeholder="(11) 1234-5678" data-format="(99) 9999-9999" data-alt-format="(99) 99999-9999"  class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
+                            <input name="telefone" id="tel" type="text" value="{{ old('telefone', auth()->user()->telefone) }}" placeholder="(11) 1234-5678" data-format="(99) 9999-9999" data-alt-format="(99) 99999-9999"  class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
                         </div>
                     </div>
 
                     <div class="mb-[20px]">
                         <label class="block text-[11px] font-bold text-[#aaa] uppercase tracking-[1px] mb-[5px]">E-mail</label>
-                        <input name="email" type="email" value="{{ auth()->user()->email }}" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
+                        <input name="email" type="email" value="{{ old('email', auth()->user()->email) }}" class="w-full p-[12px] border border-[#e0e0e0] rounded-[8px] text-[14px] outline-none focus:border-[#465367] transition-colors">
                     </div>
                     @if(session('success'))
                         <p style="color: green;">{{ session('success') }}</p>
+                    @endif
+                    @if($errors->any())
+                        <ul class="mb-[10px] rounded-[8px] border border-red-200 bg-red-50 p-[12px] text-[13px] text-red-700" role="alert">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     @endif
 
                     <!-- Seção de Botões -->

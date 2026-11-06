@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PedidoDuvida;
 use Illuminate\Support\Facades\DB;
 
 class AdminPedidosController extends Controller
@@ -46,6 +47,11 @@ class AdminPedidosController extends Controller
             ->where('pedido_id', $id)
             ->get();
 
-        return view('admin.pedidos.show', compact('pedido', 'itens'));
+        $duvidas = PedidoDuvida::query()
+            ->where('pedido_id', $id)
+            ->latest()
+            ->get();
+
+        return view('admin.pedidos.show', compact('pedido', 'itens', 'duvidas'));
     }
 }

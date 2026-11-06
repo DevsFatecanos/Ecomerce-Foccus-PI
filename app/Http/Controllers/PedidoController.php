@@ -14,7 +14,7 @@ class PedidoController extends Controller
         $user = auth()->user();
 
         $pedidos = Pedido::query()
-            ->with('itens')
+            ->with(['itens', 'duvidas' => fn ($query) => $query->latest()])
             ->where('user_id', $user->id)
             ->latest()
             ->get();

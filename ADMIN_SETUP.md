@@ -59,7 +59,7 @@ php artisan db:seed --class=AdminUserSeeder
 
 **Credenciais:**
 - Email: `admin@loja.com`
-- Senha: `admin123`
+- Senha: a definida em `ADMIN_PASSWORD` no `.env` (ou a gerada pelo seeder)
 
 ### 3. Acessar o Painel
 - URL: `http://localhost/admin/dashboard`
@@ -159,7 +159,7 @@ php artisan db:seed --class=AdminUserSeeder
 3. Acesse: `http://localhost/admin/dashboard`
 4. Faça login:
    - Email: `admin@loja.com`
-   - Senha: `admin123`
+   - Senha: a definida em `ADMIN_PASSWORD` no `.env` (ou a gerada pelo seeder)
 5. Você deve ver o painel de admin!
 
 ---

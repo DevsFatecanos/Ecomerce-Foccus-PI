@@ -16,6 +16,10 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminProdutoController;
 use App\Http\Controllers\AdminPedidosController;
+use App\Http\Controllers\AdminFaqController;
+use App\Http\Controllers\AdminPedidoDuvidaController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\PedidoDuvidaController;
 
 Route::get('/', function () {
     $destaques = Produto::where('destaque', 1)->get();
@@ -32,6 +36,7 @@ Route::get('/', function () {
 });
 
 Route::get('/carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 // Página pública de produto
 use App\Http\Controllers\PublicProdutoController;
@@ -43,16 +48,21 @@ Route::post('/carrinho/{produto}', [CarrinhoController::class, 'store'])->name('
 Route::put('/carrinho/{produto}', [CarrinhoController::class, 'update'])->name('carrinho.update');
 Route::delete('/carrinho/{produto}', [CarrinhoController::class, 'destroy'])->name('carrinho.remove');
 Route::delete('/carrinho', [CarrinhoController::class, 'clear'])->name('carrinho.clear');
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::get('/checkout/processar', fn () => redirect()->route('checkout.index'));
-Route::post('/checkout/processar', [CheckoutController::class, 'finalizar'])->name('checkout.processar');
+// Checkout exige login: todo pedido fica vinculado a uma conta, o que permite
+// acompanha-lo em "Meus Pedidos" e enviar duvidas sobre ele.
+Route::middleware('auth')->group(function (): void {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::get('/checkout/processar', fn () => redirect()->route('checkout.index'));
+    Route::post('/checkout/processar', [CheckoutController::class, 'finalizar'])->name('checkout.processar');
+    Route::get('/checkout/pix/{referencia}', [CheckoutController::class, 'pix'])
+        ->where('referencia', '[A-Za-z0-9\-]+')
+        ->name('checkout.pix');
+    Route::get('/checkout/pix/{referencia}/status', [CheckoutController::class, 'pixStatus'])
+        ->where('referencia', '[A-Za-z0-9\-]+')
+        ->name('checkout.pix.status');
+});
+// Retorno do Mercado Pago fica publico: o status exibido e sempre consultado na API do MP.
 Route::get('/checkout/retorno', [CheckoutController::class, 'retorno'])->name('checkout.retorno');
-Route::get('/checkout/pix/{referencia}', [CheckoutController::class, 'pix'])
-    ->where('referencia', '[A-Za-z0-9\-]+')
-    ->name('checkout.pix');
-Route::get('/checkout/pix/{referencia}/status', [CheckoutController::class, 'pixStatus'])
-    ->where('referencia', '[A-Za-z0-9\-]+')
-    ->name('checkout.pix.status');
 
 // Webhook do Mercado Pago: CSRF isento em bootstrap/app.php. O status e sempre
 // confirmado consultando a API do MP (ver MercadoPagoWebhookController).
@@ -65,22 +75,15 @@ Route::middleware('auth')->group(function (): void {
     Route::delete('/favoritos/{produto}', [FavoritoController::class, 'destroy'])->name('favoritos.destroy');
 
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+    Route::post('/pedidos/{pedido}/duvidas', [PedidoDuvidaController::class, 'store'])
+        ->middleware('throttle:10,1')
+        ->name('pedidos.duvidas.store');
 });
 
 //Rotas de Conta
-Route::get('/meusdados', [UserController::class, 'meusdados'])->middleware('auth');
-Route::middleware('auth')->post('/meusdados/update', function (\Illuminate\Http\Request $request) {
-
-    $user = auth()->user();
-
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-        'cpf' => $request->cpf,
-        'telefone' => $request->telefone
-    ]);
-
-    return back()->with('success', 'Dados atualizados!');
+Route::middleware('auth')->group(function (): void {
+    Route::get('/meusdados', [UserController::class, 'meusdados'])->name('meusdados');
+    Route::post('/meusdados/update', [UserController::class, 'atualizarMeusDados'])->name('meusdados.update');
 });
 
 // Rotas de Trocar Senha
@@ -97,10 +100,7 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 // Rotas de Login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Rotas de Admin (Painel de Administração)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
@@ -115,6 +115,15 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Pedidos
     Route::get('/pedidos', [AdminPedidosController::class, 'index'])->name('pedidos.index');
     Route::get('/pedidos/{id}', [AdminPedidosController::class, 'show'])->name('pedidos.show');
+
+    // Atendimento: duvidas dos clientes sobre pedidos
+    Route::get('/duvidas', [AdminPedidoDuvidaController::class, 'index'])->name('duvidas.index');
+    Route::get('/duvidas/{duvida}', [AdminPedidoDuvidaController::class, 'show'])->name('duvidas.show');
+    Route::put('/duvidas/{duvida}', [AdminPedidoDuvidaController::class, 'update'])->name('duvidas.update');
+
+    // FAQ
+    Route::resource('faqs', AdminFaqController::class)->except('show');
+    Route::patch('/faqs/{faq}/toggle', [AdminFaqController::class, 'toggle'])->name('faqs.toggle');
 
     // CRUD de Produtos
     Route::resource('produtos', AdminProdutoController::class);

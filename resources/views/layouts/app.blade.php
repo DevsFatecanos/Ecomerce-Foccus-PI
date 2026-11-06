@@ -297,6 +297,21 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center {{ request()->routeIs('admin.duvidas.*') ? 'active' : '' }}"
+                           href="{{ route('admin.duvidas.index') }}">
+                            <i class="fas fa-headset"></i> Atendimento
+                            @if(($duvidasAbertasCount ?? 0) > 0)
+                                <span class="badge rounded-pill bg-danger ms-auto" title="Dúvidas abertas">{{ $duvidasAbertasCount }}</span>
+                            @endif
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}"
+                           href="{{ route('admin.faqs.index') }}">
+                            <i class="fas fa-circle-question"></i> FAQ
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('admin.relatorios') ? 'active' : '' }}"
                            href="{{ route('admin.relatorios') }}">
                             <i class="fas fa-chart-bar"></i> Relatórios e Gráficos

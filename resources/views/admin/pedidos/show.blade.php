@@ -129,6 +129,38 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Duvidas do cliente sobre o pedido -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-headset"></i> Dúvidas do cliente ({{ $duvidas->count() }})
+                    </h5>
+                </div>
+                @if($duvidas->isEmpty())
+                    <div class="card-body text-muted">Nenhuma dúvida enviada sobre este pedido.</div>
+                @else
+                    <ul class="list-group list-group-flush">
+                        @foreach($duvidas as $duvida)
+                            @php
+                                $duvidaClass = ['aberta' => 'danger', 'em_andamento' => 'warning', 'respondida' => 'success'][$duvida->status] ?? 'secondary';
+                            @endphp
+                            <li class="list-group-item d-flex justify-content-between align-items-start gap-3">
+                                <div>
+                                    <small class="text-muted">{{ $duvida->created_at->format('d/m/Y H:i') }}</small>
+                                    <div>{{ Str::limit($duvida->mensagem, 140) }}</div>
+                                </div>
+                                <div class="text-nowrap">
+                                    <span class="badge bg-{{ $duvidaClass }}">{{ $duvida->status_label }}</span>
+                                    <a href="{{ route('admin.duvidas.show', $duvida) }}" class="btn btn-sm btn-primary ms-1" title="Responder">
+                                        <i class="fas fa-reply"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
         </div>
 
         <!-- Dados do Cliente -->

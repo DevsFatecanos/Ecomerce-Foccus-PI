@@ -43,6 +43,6 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         // 4. Redirecionar
-        return redirect('/')->with('success', 'Cadastro realizado com sucesso!');
+        return redirect()->intended('/')->with('success', 'Cadastro realizado com sucesso!');
     }
 }

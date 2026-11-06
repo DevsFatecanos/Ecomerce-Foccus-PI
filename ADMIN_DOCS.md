@@ -22,7 +22,7 @@ http://localhost/admin/dashboard
 
 ### Credenciais Padrão (após seeder)
 - **Email:** `admin@loja.com`
-- **Senha:** `admin123`
+- **Senha:** a definida em `ADMIN_PASSWORD` no `.env` (sem ela, o seeder gera uma senha aleatória e a exibe no terminal)
 
 ⚠️ **IMPORTANTE:** Altere a senha do admin imediatamente em produção!
 
@@ -226,7 +226,7 @@ php artisan db:seed --class=AdminUserSeeder
 
 4. Faça login com:
    - Email: `admin@loja.com`
-   - Senha: `admin123`
+   - Senha: a definida em `ADMIN_PASSWORD` no `.env` (ou a gerada pelo seeder)
 
 5. **Altere a senha imediatamente!**
 

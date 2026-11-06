@@ -1,12 +1,10 @@
--- Script para adicionar usuário admin
--- Execute este comando no seu banco de dados PostgreSQL
+-- Promove uma conta JÁ CADASTRADA a administrador.
+-- 1. Crie a conta normalmente pelo site (/register), com uma senha forte.
+-- 2. Troque o e-mail abaixo e execute no PostgreSQL.
+--
+-- Para criar o admin inicial do zero, use:
+--   php artisan db:seed --class=AdminUserSeeder   (senha em ADMIN_PASSWORD no .env)
 
--- Verificar e deletar usuário anterior se existir
-DELETE FROM users WHERE email = 'admin@loja.com';
+UPDATE users SET is_admin = true, updated_at = NOW() WHERE email = 'seu-email@exemplo.com';
 
--- Inserir novo usuário admin
-INSERT INTO users (name, email, password, is_admin, created_at, updated_at) VALUES
-('Administrador', 'admin@loja.com', '$2y$12$WQXlT.C2KXQmlRuVz4zCBOwMF/QEKoNxZpO4SXoRKILZvlG.rwP.e', true, NOW(), NOW());
-
--- Verificar se foi inserido
-SELECT id, name, email, is_admin FROM users WHERE email = 'admin@loja.com';
+SELECT id, name, email, is_admin FROM users WHERE email = 'seu-email@exemplo.com';

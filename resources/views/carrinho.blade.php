@@ -169,6 +169,9 @@
 
                 @if ($quantidadeTotal > 0)
                     <a href="/checkout" class="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-emerald-500 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-400">Ir para checkout</a>
+                    @guest
+                        <p class="mt-2 text-center text-xs text-slate-300">Para finalizar a compra, <a href="{{ route('login') }}" class="font-bold underline">entre</a> ou <a href="{{ route('register') }}" class="font-bold underline">crie sua conta</a>. Seu carrinho será mantido.</p>
+                    @endguest
                 @endif
 
                 @auth

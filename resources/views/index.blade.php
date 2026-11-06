@@ -393,6 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
                          <a href="/meusdados">Meus dados</a>
                          <a href="{{ route('pedidos.index') }}">Meus Pedidos</a>
                          <a href="{{ route('favoritos.index') }}">Meus Favoritos</a>
+                         <a href="{{ route('faq.index') }}">Dúvidas Frequentes</a>
                          @if(Auth::user()->is_admin)
                          <a href="/admin/dashboard">Dashboard</a>
                          @endif
@@ -840,6 +841,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h5 class="text-uppercase mb-4 font-weight-bold text-warning">Links úteis</h5>
                 <p><a href="/" class="text-white" style="text-decoration: none;">Início</a></p>
                 <p><a href="/carrinho" class="text-white" style="text-decoration: none;">Meu Carrinho</a></p>
+                <p><a href="{{ route('faq.index') }}" class="text-white" style="text-decoration: none;">Dúvidas Frequentes</a></p>
             </div>
 
             <div class="col-md-3 col-lg-3 mx-auto mt-3">

@@ -56,7 +56,7 @@
 
                     <div>
                         <label for="nome" class="mb-1 block text-sm font-bold text-slate-600">Nome completo</label>
-                        <input id="nome" name="nome" value="{{ old('nome') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
+                        <input id="nome" name="nome" value="{{ old('nome', auth()->user()?->name) }}" required class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
                         @error('nome')
                             <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                         @enderror
@@ -65,14 +65,14 @@
                     <div class="grid gap-5 md:grid-cols-2">
                         <div>
                             <label for="email" class="mb-1 block text-sm font-bold text-slate-600">E-mail</label>
-                            <input id="email" name="email" type="email" value="{{ old('email') }}" required class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
+                            <input id="email" name="email" type="email" value="{{ old('email', auth()->user()?->email) }}" required class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
                             @error('email')
                                 <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                         <div>
                             <label for="telefone" class="mb-1 block text-sm font-bold text-slate-600">Telefone</label>
-                            <input id="telefone" name="telefone" value="{{ old('telefone') }}" class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
+                            <input id="telefone" name="telefone" value="{{ old('telefone', auth()->user()?->telefone) }}" class="w-full rounded-xl border border-slate-200 px-3 py-3 text-sm outline-none transition focus:border-slate-400 focus:ring-2 focus:ring-slate-200">
                             @error('telefone')
                                 <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                             @enderror

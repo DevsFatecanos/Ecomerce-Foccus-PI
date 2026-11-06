@@ -50,7 +50,7 @@
 **Arquivo:** `database/seeders/AdminUserSeeder.php`
 - Cria usuário admin padrão:
   - Email: `admin@loja.com`
-  - Senha: `admin123`
+  - Senha: a definida em `ADMIN_PASSWORD` no `.env` (ou a gerada pelo seeder)
   - is_admin: true
 
 ### 7. **Rotas**
@@ -148,7 +148,7 @@ php artisan db:seed --class=AdminUserSeeder
 3. **Acessar o Painel:**
 - URL: `http://localhost/admin/dashboard`
 - Email: `admin@loja.com`
-- Senha: `admin123`
+- Senha: a definida em `ADMIN_PASSWORD` no `.env` (ou a gerada pelo seeder)
 
 ### Operações Diárias:
 
@@ -256,7 +256,7 @@ laravel-project/
 Depois de executar as migrations e seeders:
 
 1. Acesse: `http://localhost/admin/dashboard`
-2. Faça login com `admin@loja.com` / `admin123`
+2. Faça login com `admin@loja.com` e a senha de `ADMIN_PASSWORD` (ou a gerada pelo seeder)
 3. Clique em "Novo Produto" para testar criação
 4. Preencha os campos e clique em "Adicionar Produto"
 5. Veja o produto aparecer na tabela

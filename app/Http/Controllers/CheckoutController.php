@@ -151,7 +151,7 @@ class CheckoutController extends Controller
 
     public function pix(string $referencia): View|RedirectResponse
     {
-        $pedido = \App\Models\Pedido::where('referencia', $referencia)->firstOrFail();
+        $pedido = $this->pedidoDoUsuario($referencia) ?? abort(404);
 
         if ($pedido->pix_qr_code === null) {
             return redirect()->to('/checkout')->with('error', 'Pedido sem PIX gerado.');
@@ -172,7 +172,7 @@ class CheckoutController extends Controller
 
     public function pixStatus(string $referencia): JsonResponse
     {
-        $pedido = \App\Models\Pedido::where('referencia', $referencia)->first();
+        $pedido = $this->pedidoDoUsuario($referencia);
 
         if (! $pedido) {
             return response()->json(['success' => false, 'message' => 'Pedido nao encontrado.'], 404);
@@ -204,6 +204,17 @@ class CheckoutController extends Controller
                 ], false)
                 : null,
         ]);
+    }
+
+    /**
+     * Pedido da referencia informada, desde que pertenca ao usuario logado.
+     */
+    private function pedidoDoUsuario(string $referencia): ?\App\Models\Pedido
+    {
+        return \App\Models\Pedido::query()
+            ->where('referencia', $referencia)
+            ->where('user_id', auth()->id())
+            ->first();
     }
 
     public function retorno(Request $request): View
