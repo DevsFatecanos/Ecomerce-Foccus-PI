@@ -8,7 +8,7 @@
         $favoritosIds = $favoritosIds ?? [];
     @endphp
 
-    <div class="mx-auto max-w-7xl px-4 py-10 md:px-8">
+    <div class="md:py-4">
 
         <a href="/" class="text-sm font-bold text-blue-700 hover:underline">&larr; Voltar para a loja</a>
 
@@ -42,7 +42,7 @@
 
         @else
 
-            <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
                 @foreach($produtos as $produto)
                     @php
                         $preco = (float) ($produto->preco_atual ?? 0);
@@ -53,10 +53,10 @@
                             : 0;
                     @endphp
 
-                    <article class="product-card flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+                    <article class="product-card flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
 
                         <div class="relative mb-4 overflow-hidden rounded-xl bg-slate-100 aspect-square">
-                            <a href="{{ route('produtos.show', $produto->id) }}">
+                            <a href="{{ route('produtos.show', $produto->id) }}" class="block h-full w-full">
                                 <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" alt="{{ $produto->nome }}" class="h-full w-full object-contain p-2" />
                             </a>
 
@@ -68,7 +68,7 @@
 
                             @auth
                                 @php $isFavorito = in_array($produto->id, $favoritosIds, true); @endphp
-                                <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
+                                <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-2 top-2 z-20 sm:right-3 sm:top-3" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                     @csrf
                                     @if ($isFavorito)
                                         @method('DELETE')
@@ -81,7 +81,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <h4 class="line-clamp-2 text-base font-black text-slate-900">
+                            <h4 class="line-clamp-2 text-sm font-black sm:text-base text-slate-900">
                                 <a href="{{ route('produtos.show', $produto->id) }}" class="text-inherit text-decoration-none">{{ $produto->nome }}</a>
                             </h4>
                             <p class="text-xs text-slate-500">
@@ -95,7 +95,7 @@
                                     R$ {{ number_format($precoAntigo, 2, ',', '.') }}
                                 </p>
                             @endif
-                            <p class="text-2xl font-black text-blue-700">
+                            <p class="text-lg font-black text-blue-700 sm:text-2xl">
                                 R$ {{ number_format($preco, 2, ',', '.') }}
                             </p>
                         </div>

@@ -4,7 +4,7 @@
 @section('meta_description', 'Perguntas frequentes sobre pedidos, pagamentos e entregas da Distribuidora Foccus.')
 
 @section('content')
-    <div class="mx-auto max-w-4xl px-4 py-10 md:px-8">
+    <div class="mx-auto max-w-4xl md:py-4">
 
         <a href="/" class="text-sm font-bold text-blue-700 hover:underline">&larr; Voltar para a loja</a>
 
@@ -48,11 +48,11 @@
                         <div class="space-y-3">
                             @foreach($faqs as $faq)
                                 <details class="faq-item group rounded-2xl border border-slate-200 bg-white shadow-sm transition open:border-blue-200 open:shadow-md">
-                                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-bold text-slate-800 [&::-webkit-details-marker]:hidden">
+                                    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 font-bold text-slate-800 sm:px-5 [&::-webkit-details-marker]:hidden">
                                         <span>{{ $faq->pergunta }}</span>
                                         <i class="fa-solid fa-chevron-down shrink-0 text-sm text-slate-400 transition group-open:rotate-180 group-open:text-blue-600"></i>
                                     </summary>
-                                    <div class="border-t border-slate-100 px-5 py-4 text-sm leading-relaxed text-slate-600">
+                                    <div class="border-t border-slate-100 px-4 py-4 text-sm sm:px-5 leading-relaxed text-slate-600">
                                         {!! nl2br(e($faq->resposta)) !!}
                                     </div>
                                 </details>
@@ -67,7 +67,7 @@
             </p>
         @endif
 
-        <div class="mt-12 rounded-3xl bg-slate-900 p-8 text-center text-white">
+        <div class="mt-12 rounded-3xl bg-slate-900 p-6 text-center text-white sm:p-8">
             <h2 class="text-2xl font-black">Não encontrou o que procurava?</h2>
             <p class="mt-2 text-slate-300">
                 Dúvidas sobre um pedido específico podem ser enviadas direto pelo seu histórico de compras.

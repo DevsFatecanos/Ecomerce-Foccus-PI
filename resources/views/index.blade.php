@@ -143,6 +143,94 @@
             height: 100%;
         }
 
+        /* Catalogo no celular: uma fileira por categoria, 3 produtos visiveis,
+           arrastada para o lado (sem setas). No desktop segue o carrossel do Bootstrap. */
+        @media (max-width: 767.98px) {
+            .categoria-carrossel .carousel-control-prev,
+            .categoria-carrossel .carousel-control-next {
+                display: none !important;
+            }
+            .categoria-carrossel .carousel-inner {
+                display: flex;
+                gap: 8px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior-x: contain;
+                scrollbar-width: none;
+                padding-bottom: 4px;
+            }
+            .categoria-carrossel .carousel-inner::-webkit-scrollbar,
+            .categoria-carrossel .carousel-inner::after {
+                display: none;
+            }
+            /* Desfaz os slides e a grade: os cards viram itens diretos da fileira */
+            .categoria-carrossel .carousel-item,
+            .categoria-carrossel .carousel-item > .grid {
+                display: contents !important;
+            }
+            .categoria-carrossel [data-produto-card] {
+                flex: 0 0 calc((100% - 16px) / 3);
+                min-width: 0;
+                scroll-snap-align: start;
+                padding: 6px;
+                display: flex;
+                flex-direction: column;
+            }
+            .categoria-carrossel [data-produto-card].hidden {
+                display: none;
+            }
+            .categoria-carrossel [data-produto-card] > div:first-child {
+                aspect-ratio: 1 / 1;
+                margin-bottom: 6px;
+            }
+            .categoria-carrossel [data-produto-card] > div:first-child > span {
+                left: 4px;
+                top: 4px;
+                padding: 1px 5px;
+                font-size: 9px;
+            }
+            .categoria-carrossel [data-produto-card] form[data-favorite-toggle] {
+                right: 4px;
+                top: 4px;
+            }
+            .categoria-carrossel [data-produto-card] form[data-favorite-toggle] button {
+                height: 24px;
+                width: 24px;
+                font-size: 11px;
+            }
+            .categoria-carrossel [data-produto-card] h4 {
+                font-size: 11px;
+                line-height: 1.25;
+            }
+            .categoria-carrossel [data-produto-card] h4 + p {
+                font-size: 10px;
+            }
+            .categoria-carrossel [data-produto-card] p.line-through {
+                font-size: 10px;
+            }
+            .categoria-carrossel [data-produto-card] p.text-lg {
+                font-size: 14px;
+                line-height: 1.2;
+            }
+            .categoria-carrossel [data-produto-card] form:not([data-favorite-toggle]) {
+                margin-top: auto;
+            }
+            .categoria-carrossel [data-produto-card] form label {
+                display: none;
+            }
+            .categoria-carrossel [data-produto-card] input[name="quantidade"] {
+                padding: 2px 6px;
+                font-size: 12px;
+                text-align: center;
+            }
+            .categoria-carrossel [data-produto-card] button[type="submit"]:not(form[data-favorite-toggle] button) {
+                padding: 6px 2px;
+                font-size: 11px;
+            }
+        }
+
         .hero-banner-wrap {
             position: relative;
             min-height: 100%;
@@ -715,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $lotes = $produtosCategoria->chunk($produtosPorSlide);
     @endphp
 
-    <div id="carousel-{{ $slug }}" class="carousel slide" data-bs-ride="false">
+    <div id="carousel-{{ $slug }}" class="carousel slide categoria-carrossel" data-bs-ride="false" data-bs-touch="false">
 
         <div class="carousel-inner">
 
@@ -723,7 +811,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
 
-                    <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
 
                         @foreach($lote as $produto)
 
@@ -749,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                                 <div class="relative mb-2 overflow-hidden rounded-lg bg-slate-100 aspect-[3/2]">
 
-                                    <a href="{{ route('produtos.show', $produto->id) }}">
+                                    <a href="{{ route('produtos.show', $produto->id) }}" class="block h-full w-full">
                                         <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" alt="{{ $produto->nome }}" class="h-full w-full object-contain p-1.5" />
                                     </a>
 
@@ -829,7 +917,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         class="w-full rounded-lg bg-blue-700 py-2 text-xs font-black text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-slate-300"
                                         {{ $produto->quantidade <= 0 ? 'disabled' : '' }}
                                     >
-                                        {{ $produto->quantidade > 0 ? 'Adicionar ao carrinho' : 'Esgotado' }}
+                                        @if ($produto->quantidade > 0)<span class="md:hidden">Adicionar</span><span class="hidden md:inline">Adicionar ao carrinho</span>@else Esgotado @endif
                                     </button>
 
                                 </form>
@@ -848,7 +936,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         {{-- BOTÃO ANTERIOR --}}
         <button
-            class="carousel-control-prev  left-[-20px] top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-slate-700 text-white shadow-xl transition hover:scale-110 hover:bg-slate-600 "
+            class="carousel-control-prev left-1 top-1/2 z-20 flex h-9 w-9 md:left-[-20px] md:h-12 md:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-slate-700 text-white shadow-xl transition hover:scale-110 hover:bg-slate-600 "
             type="button"
             data-bs-target="#carousel-{{ $slug }}"
             data-bs-slide="prev"
@@ -858,7 +946,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         {{-- BOTÃO PRÓXIMO --}}
         <button
-            class="carousel-control-next right-[-20px] top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-slate-700 text-white shadow-xl transition hover:scale-110 hover:bg-slate-600"
+            class="carousel-control-next right-1 top-1/2 z-20 flex h-9 w-9 md:right-[-20px] md:h-12 md:w-12 -translate-y-1/2 items-center justify-center rounded-full bg-slate-700 text-white shadow-xl transition hover:scale-110 hover:bg-slate-600"
             type="button"
             data-bs-target="#carousel-{{ $slug }}"
             data-bs-slide="next"

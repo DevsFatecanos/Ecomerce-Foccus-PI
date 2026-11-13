@@ -11,12 +11,13 @@
     <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
 </head>
-<body class="bg-gray-50 flex items-center justify-center min-h-screen border-t-8 border-slate-500">
+<body class="flex min-h-screen flex-col bg-gray-50 border-t-8 border-slate-500">
 
-    <div class="max-w-md w-full text-center p-8">
+    <main class="flex flex-1 items-center justify-center px-4 py-12">
+    <div class="w-full max-w-md text-center">
         <div class="mb-8">
-            <h1 class="text-9xl font-black text-slate-200">404</h1>
-            <div class="relative -mt-16">
+            <h1 class="text-8xl font-black text-slate-200 sm:text-9xl">404</h1>
+            <div class="relative -mt-12 sm:-mt-16">
                 <picture>
                     <source srcset="/LOGO_FOCCUS.webp" type="image/webp">
                     <img src="/LOGO_FOCCUS.png" class="mx-auto w-48 opacity-20 grayscale" alt="Foccus" decoding="async">
@@ -45,6 +46,7 @@
             </p>
         </div>
     </div>
+    </main>
     @include('partials.store-footer')
 
 </body>

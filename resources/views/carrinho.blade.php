@@ -75,8 +75,8 @@
             <section class="space-y-4">
                 @forelse ($itens as $item)
                     <article class="store-product-card rounded-3xl border border-slate-100 bg-white p-4 shadow-sm md:p-5">
-                        <div class="flex flex-col gap-4 md:flex-row md:items-center">
-                            <div class="h-24 w-24 shrink-0 relative">
+                        <div class="flex items-start gap-3 sm:gap-4 md:items-center">
+                            <div class="relative h-20 w-20 shrink-0 sm:h-24 sm:w-24">
                                 <x-product-image :url="$item['produto']->url_imagem" :ean="$item['produto']->codigo_barras" class="h-full w-full object-cover" wrapper-class="overflow-hidden rounded-2xl bg-slate-100 h-full w-full" />
 
                                 @auth
@@ -86,17 +86,17 @@
                                         @if ($isFavorito)
                                             @method('DELETE')
                                         @endif
-                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="m-2 h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
+                                        <button type="submit" aria-label="{{ $isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" title="{{ $isFavorito ? 'Remover favorito' : 'Favoritar' }}" class="m-1 h-7 w-7 rounded-full text-xs shadow sm:m-2 sm:h-8 sm:w-8 sm:text-base flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none {{ $isFavorito ? 'bg-red-600 text-white' : 'bg-white text-amber-500 border border-slate-200' }}">
                                             <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>
                                 @endauth
                             </div>
 
-                            <div class="flex-1">
+                            <div class="min-w-0 flex-1">
                                 <div class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                                     <div>
-                                        <h2 class="text-lg font-bold text-slate-900">{{ $item['produto']->nome }}</h2>
+                                        <h2 class="text-base font-bold text-slate-900 sm:text-lg">{{ $item['produto']->nome }}</h2>
                                         <p class="text-sm text-slate-500">{{ $item['produto']->marca ?? 'Marca não informada' }}</p>
                                     </div>
                                     <div class="text-left md:text-right">
@@ -178,9 +178,9 @@
                     <h2 class="mt-2 text-3xl font-black text-slate-900">Pedidos relacionados ao seu carrinho</h2>
                 </div>
 
-                <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                <div class="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
                     @foreach ($sugestoes as $produto)
-                        <article class="store-product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+                        <article class="store-product-card overflow-hidden rounded-2xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
                             <div class="relative overflow-hidden rounded-xl bg-slate-100 aspect-square mb-0">
                                 <a href="{{ route('produtos.show', $produto) }}" class="block h-full w-full">
                                     <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" class="h-full w-full object-contain p-2" />
@@ -188,7 +188,7 @@
 
                                 @auth
                                     @php $isFavorito = in_array($produto->id, $favoritosIds ?? [], true); @endphp
-                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
+                                    <form action="{{ $isFavorito ? route('favoritos.destroy', $produto) : route('favoritos.store', $produto) }}" method="POST" class="absolute right-2 top-2 z-20 sm:right-3 sm:top-3" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                         @csrf
                                         @if ($isFavorito)
                                             @method('DELETE')
@@ -200,14 +200,14 @@
                                 @endauth
                             </div>
 
-                            <h3 class="mt-3 line-clamp-2 text-base font-black text-slate-900">{{ $produto->nome }}</h3>
+                            <h3 class="mt-3 line-clamp-2 text-sm font-black sm:text-base text-slate-900">{{ $produto->nome }}</h3>
                             <p class="text-xs text-slate-500">{{ $produto->categoria ?? 'Sem categoria' }}</p>
-                            <p class="mt-2 text-2xl font-black text-blue-700">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
+                            <p class="mt-2 text-lg font-black text-blue-700 sm:text-2xl">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
 
                             <form action="{{ route('carrinho.add', $produto) }}" method="POST" class="mt-3">
                                 @csrf
                                 <input type="hidden" name="quantidade" value="1">
-                                <button type="submit" class="w-full rounded-xl bg-blue-700 py-2 text-sm font-bold text-white transition hover:bg-blue-600">Adicionar</button>
+                                <button type="submit" class="w-full rounded-xl bg-blue-700 py-2 text-xs font-bold text-white sm:text-sm transition hover:bg-blue-600">Adicionar</button>
                             </form>
 
                         </article>

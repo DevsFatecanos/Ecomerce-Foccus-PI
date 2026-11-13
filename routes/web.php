@@ -16,6 +16,10 @@ use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminProdutoController;
 use App\Http\Controllers\AdminPedidosController;
+use App\Http\Controllers\AdminFaqController;
+use App\Http\Controllers\AdminPedidoDuvidaController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\PedidoDuvidaController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 

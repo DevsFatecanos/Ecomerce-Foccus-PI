@@ -21,7 +21,7 @@
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
                 <p class="text-sm font-semibold uppercase tracking-[0.28em] text-slate-500">Minha lista</p>
-                <h1 class="mt-2 text-4xl font-black">Produtos favoritos</h1>
+                <h1 class="mt-2 text-3xl font-black sm:text-4xl">Produtos favoritos</h1>
                 <p class="mt-2 text-slate-600">Acesse rapidamente seus itens preferidos e sugestões relacionadas.</p>
             </div>
             <a href="/" class="rounded-full bg-slate-900 px-5 py-3 text-sm font-bold text-white">Voltar para loja</a>
@@ -33,9 +33,9 @@
             </div>
         @endif
 
-        <section class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <section class="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
             @forelse ($favoritos as $produto)
-                <article class="store-product-card rounded-2xl border border-slate-100 bg-white p-4 shadow-sm" data-favorite-product-card>
+                <article class="store-product-card rounded-2xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4" data-favorite-product-card>
                     <div class="relative overflow-hidden rounded-xl bg-slate-100 aspect-square mb-0">
                         <a href="{{ route('produtos.show', $produto) }}" class="block h-full w-full">
                             <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" class="h-full w-full object-contain p-2" />
@@ -43,7 +43,7 @@
 
                         @auth
                             @php $isFavorito = true; @endphp
-                            <form action="{{ route('favoritos.destroy', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-confirm-favorite-remove data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}" data-remove-favorite-card="true">
+                            <form action="{{ route('favoritos.destroy', $produto) }}" method="POST" class="absolute right-2 top-2 z-20 sm:right-3 sm:top-3" data-confirm-favorite-remove data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}" data-remove-favorite-card="true">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" aria-label="Remover dos favoritos" title="Remover favorito" class="h-8 w-8 rounded-full shadow flex items-center justify-center transition hover:scale-110 active:scale-95 focus:outline-none bg-red-600 text-white">
@@ -53,9 +53,9 @@
                         @endauth
                     </div>
 
-                    <h2 class="mt-3 line-clamp-2 text-base font-black">{{ $produto->nome }}</h2>
+                    <h2 class="mt-3 line-clamp-2 text-sm font-black sm:text-base">{{ $produto->nome }}</h2>
                     <p class="text-xs text-slate-500">{{ $produto->categoria ?? 'Sem categoria' }}</p>
-                    <p class="mt-2 text-2xl font-black text-blue-700">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
+                    <p class="mt-2 text-lg font-black text-blue-700 sm:text-2xl">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
 
                 </article>
             @empty
@@ -74,29 +74,29 @@
 
         @if ($sugestoes->count() > 0)
             <section class="mt-12">
-                <h2 class="text-3xl font-black">Sugestoes relacionadas</h2>
-                <div class="mt-5 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                <h2 class="text-2xl font-black sm:text-3xl">Sugestoes relacionadas</h2>
+                <div class="mt-5 grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-4">
                     @foreach ($sugestoes as $produto)
-                        <article class="store-product-card rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
+                        <article class="store-product-card rounded-2xl border border-slate-100 bg-white p-3 shadow-sm sm:p-4">
                                 <div class="relative overflow-hidden rounded-xl bg-slate-100 aspect-square">
                                     <a href="{{ route('produtos.show', $produto) }}" class="block h-full w-full">
                                         <x-product-image :url="$produto->url_imagem" :ean="$produto->codigo_barras" class="h-full w-full object-contain p-2" />
                                     </a>
-                                    <form action="{{ route('favoritos.store', $produto) }}" method="POST" class="absolute right-3 top-3 z-20" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
+                                    <form action="{{ route('favoritos.store', $produto) }}" method="POST" class="absolute right-2 top-2 z-20 sm:right-3 sm:top-3" data-favorite-toggle data-favorite-store-url="{{ route('favoritos.store', $produto) }}" data-favorite-destroy-url="{{ route('favoritos.destroy', $produto) }}">
                                         @csrf
                                         <button type="submit" aria-label="Adicionar aos favoritos" title="Favoritar" class="flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-amber-500 shadow transition hover:scale-110 hover:bg-amber-50 active:scale-95 focus:outline-none">
                                             <i class="fa-solid fa-heart"></i>
                                         </button>
                                     </form>
                                 </div>
-                            <h3 class="mt-3 line-clamp-2 text-base font-black">{{ $produto->nome }}</h3>
+                            <h3 class="mt-3 line-clamp-2 text-sm font-black sm:text-base">{{ $produto->nome }}</h3>
                             <p class="text-xs text-slate-500">{{ $produto->categoria ?? 'Sem categoria' }}</p>
-                            <p class="mt-2 text-2xl font-black text-blue-700">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
+                            <p class="mt-2 text-lg font-black text-blue-700 sm:text-2xl">R$ {{ number_format((float) $produto->preco_atual, 2, ',', '.') }}</p>
 
                             <form action="{{ route('carrinho.add', $produto) }}" method="POST" class="mt-3">
                                 @csrf
                                 <input type="hidden" name="quantidade" value="1">
-                                <button class="w-full rounded-xl bg-blue-700 py-2 text-sm font-bold text-white hover:bg-blue-600">Adicionar ao carrinho</button>
+                                <button class="w-full rounded-xl bg-blue-700 py-2 text-xs font-bold text-white sm:text-sm hover:bg-blue-600">Adicionar ao carrinho</button>
                             </form>
                         </article>
                     @endforeach
