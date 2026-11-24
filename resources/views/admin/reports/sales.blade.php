@@ -11,6 +11,7 @@
         th,td{border:1px solid #ddd;padding:8px}
         th{background:#f4f4f4}
     </style>
+    @include('partials.accessibility-widget')
 </head>
 <body>
     <h2>Relatório de Vendas</h2>

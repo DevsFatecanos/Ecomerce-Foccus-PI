@@ -9,14 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
+    @include('partials.accessibility-widget')
 </head>
-</style>
-    <script id="#userwayAccessibilityIcon" src = " https://cdn.userway.org/widget.js "  data-account = " wHedvuvp49 " ></script>
-    <style>
-    #userwayAccessibilityIcon {
-        margin-top: 500px;
-    }
-    </style>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
 
     <div class="max-w-4xl w-full bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">

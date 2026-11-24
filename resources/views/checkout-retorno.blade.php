@@ -9,12 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
-    <script id="#userwayAccessibilityIcon" src = " https://cdn.userway.org/widget.js "  data-account = " wHedvuvp49 " ></script>
-    <style>
-    #userwayAccessibilityIcon {
-        margin-top: 500px;
-    }
-    </style>
+    @include('partials.accessibility-widget')
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
 </head>
 <body class="min-h-screen bg-slate-950 px-4 py-14 text-white">
@@ -45,6 +40,5 @@
             <a href="/" class="inline-flex items-center justify-center rounded-xl border border-white/20 px-4 py-3 text-sm font-bold text-white transition hover:bg-white/10">Voltar para loja</a>
         </div>
     </main>
-    @include('partials.store-footer')
 </body>
 </html>

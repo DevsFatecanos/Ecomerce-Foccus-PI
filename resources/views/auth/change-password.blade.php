@@ -12,6 +12,7 @@
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.webp') }}" as="image" type="image/webp">
     <link rel="preload" href="{{ asset('LOGO_FOCCUS.png') }}" as="image">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
+    @include('partials.accessibility-widget')
 </head>
 <body class="bg-[#f4f4f4] flex items-center justify-center min-h-screen font-sans p-4">
 
