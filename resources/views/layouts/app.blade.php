@@ -185,6 +185,7 @@
         }
     </style>
     
+    @include('partials.accessibility-widget')
     @yield('extra-css')
 </head>
 <body>

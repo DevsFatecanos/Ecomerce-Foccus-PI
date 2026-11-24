@@ -29,14 +29,11 @@ document.documentElement.classList.add('js');
         }
 
         function initSwiper() {
-            const swiperElement = document.querySelector('.mySwiper');
-            if (!swiperElement || typeof Swiper === 'undefined') return;
-
             const counterCurrent = document.getElementById('offerCounterCurrent');
             const counterRoot = document.getElementById('offerCounter');
             const total = parseInt(counterRoot?.dataset.total || '1', 10);
 
-            const swiper = new Swiper(swiperElement, {
+            const swiper = new Swiper('.mySwiper', {
                 slidesPerView: 1.15,
                 spaceBetween: 18,
                 loop: true,

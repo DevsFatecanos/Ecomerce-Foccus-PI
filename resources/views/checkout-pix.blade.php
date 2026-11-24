@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="shortcut icon" href="/favicon.png" type="image/x-icon">
+    @include('partials.accessibility-widget')
 </head>
 <body class="min-h-screen bg-slate-950 px-4 py-14 text-white">
     <main class="mx-auto max-w-2xl rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl md:p-8">

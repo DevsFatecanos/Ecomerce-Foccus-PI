@@ -76,10 +76,20 @@
         }
         @media (max-width: 640px) {
             .dropbtn {
-                max-width: 112px;
+                max-width: min(112px, 30vw);
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+            .dropdown-content {
+                box-sizing: border-box;
+                left: 0;
+                right: auto;
+                width: min(200px, calc(100vw - 1rem));
+                min-width: 0;
+            }
+            .dropdown-content a {
+                white-space: normal;
             }
         }
         .store-category-nav {
@@ -88,6 +98,7 @@
         }
     </style>
 
+    @include('partials.accessibility-widget')
     @yield('extra-css')
 </head>
 <body class="min-h-screen text-slate-900">

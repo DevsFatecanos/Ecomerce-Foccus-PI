@@ -20,12 +20,7 @@
                 linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
         }
     </style>
-    <script id="#userwayAccessibilityIcon" src = " https://cdn.userway.org/widget.js "  data-account = " wHedvuvp49 " ></script>
-    <style>
-    #userwayAccessibilityIcon {
-        margin-top: 500px;
-    }
-    </style>
+    @include('partials.accessibility-widget')
 </head>
 <body class="min-h-screen text-slate-900">
     <nav class="sticky top-0 z-50 border-b border-slate-700 bg-[#465367] text-white">

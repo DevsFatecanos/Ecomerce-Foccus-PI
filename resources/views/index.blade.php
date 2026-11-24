@@ -408,10 +408,20 @@
 
         @media (max-width: 640px) {
             .dropbtn {
-                max-width: 112px;
+                max-width: min(112px, 30vw);
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
+            }
+            .dropdown-content {
+                box-sizing: border-box;
+                left: 0;
+                right: auto;
+                width: min(200px, calc(100vw - 1rem));
+                min-width: 0;
+            }
+            .dropdown-content a {
+                white-space: normal;
             }
         }
 
@@ -448,10 +458,6 @@ transform: translateY(-2px);
 background-color:#a9abae;
 }
 
-#userwayAccessibilityIcon {
-    margin-top: 500px;
-}
-
 .QuerOfertasBtn{
     padding: 20px;
     padding-left: 50px;
@@ -471,6 +477,7 @@ background-color:#a9abae;
 }
 
      </style>
+    @include('partials.accessibility-widget')
 </head>
 <body class="min-h-screen text-slate-900">
 
@@ -1058,7 +1065,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" defer integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
     <script src="{{ asset('JS/carrinho.js') }}" defer></script>
     <script src="{{ asset('JS/favoritos.js') }}" defer></script>
-    <script id="#userwayAccessibilityIcon" src="https://cdn.userway.org/widget.js" data-account="wHedvuvp49" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const swiper = new Swiper('.ofertas-swiper', {

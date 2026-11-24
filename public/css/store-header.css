@@ -1,0 +1,336 @@
+.store-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+    border-bottom: 1px solid #334155;
+    background: #0f172a;
+    color: #f8fafc;
+}
+
+.store-categories {
+    position: relative;
+    z-index: 40;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+
+.store-categories__inner {
+    display: flex;
+    width: min(100%, 1280px);
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    margin: 0 auto;
+    padding: 0.25rem 1.5rem;
+    scrollbar-width: none;
+}
+
+.store-categories__inner::-webkit-scrollbar {
+    display: none;
+}
+
+.store-categories__inner > span {
+    flex: 0 0 auto;
+    margin-right: 0.25rem;
+    color: #64748b;
+    font-size: 0.68rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.store-categories__inner a {
+    display: inline-flex;
+    min-height: 30px;
+    flex: 0 0 auto;
+    align-items: center;
+    border-radius: 9999px;
+    padding: 0 0.65rem;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.store-categories__inner a:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.store-categories__inner a.store-categories__offers {
+    color: #dc2626;
+}
+
+.store-header__inner {
+    display: flex;
+    width: min(100%, 1280px);
+    min-height: 68px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    margin: 0 auto;
+    padding: 0.6rem 1.5rem;
+}
+
+.store-header-page-content {
+    width: calc(100% - 2rem);
+    margin: auto;
+}
+
+.store-header__logo {
+    display: block;
+    flex: 0 0 auto;
+}
+
+.store-header__logo img {
+    display: block;
+    width: 112px;
+    height: auto;
+    filter: brightness(0) invert(1);
+}
+
+.store-header__search {
+    position: relative;
+    display: flex;
+    width: min(100%, 400px);
+    height: 38px;
+    flex: 1 1 300px;
+}
+
+.store-header__search input {
+    width: 100%;
+    min-width: 0;
+    border: 1px solid #475569;
+    border-radius: 9999px;
+    background: #334155;
+    padding: 0.5rem 2.75rem 0.5rem 1rem;
+    color: #f8fafc;
+    font: inherit;
+    font-size: 0.875rem;
+    outline: none;
+}
+
+.store-header__search input::placeholder {
+    color: #cbd5e1;
+}
+
+.store-header__search input:focus {
+    border-color: #94a3b8;
+    box-shadow: 0 0 0 2px rgba(148, 163, 184, 0.25);
+}
+
+.store-header__search button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: grid;
+    width: 40px;
+    height: 38px;
+    place-items: center;
+    border: 0;
+    border-radius: 0 9999px 9999px 0;
+    background: transparent;
+    color: #e2e8f0;
+    cursor: pointer;
+}
+
+.store-header__search button svg,
+.store-header__action svg {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.store-header__actions {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.store-header__action,
+.store-header__account summary {
+    position: relative;
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    padding: 0.45rem 0.75rem;
+    background: transparent;
+    color: #f8fafc;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.store-header__action:hover,
+.store-header__account summary:hover {
+    border-color: #475569;
+    background: #1e293b;
+    color: #fff;
+}
+
+.store-header__action--light {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.store-header__action--light:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.store-header__cart {
+    border-color: #475569;
+    background: #1e293b;
+}
+
+.store-header__account {
+    position: relative;
+}
+
+.store-header__account summary {
+    list-style: none;
+}
+
+.store-header__account summary::-webkit-details-marker {
+    display: none;
+}
+
+.store-header__menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 70;
+    min-width: 180px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #fff;
+    padding: 0.35rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.18);
+}
+
+.store-header__menu a,
+.store-header__menu button {
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    padding: 0.6rem 0.7rem;
+    color: #334155;
+    font: inherit;
+    font-size: 0.85rem;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.store-header__menu a:hover,
+.store-header__menu button:hover {
+    background: #f1f5f9;
+}
+
+.store-header__menu button {
+    color: #dc2626;
+}
+
+.store-header__badge {
+    position: absolute;
+    top: -5px;
+    right: -3px;
+    display: grid;
+    min-width: 18px;
+    height: 18px;
+    place-items: center;
+    border-radius: 9999px;
+    background: #dc2626;
+    padding: 0 4px;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 900;
+}
+
+@media (max-width: 850px) {
+    .store-header__inner {
+        gap: 0.75rem;
+        padding-inline: 1rem;
+    }
+
+    .store-header__search {
+        flex-basis: 180px;
+    }
+
+    .store-header__action,
+    .store-header__account summary {
+        padding-inline: 0.55rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .store-header__inner {
+        min-height: 60px;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.55rem 0.75rem;
+    }
+
+    .store-categories__inner {
+        justify-content: flex-start;
+        padding-inline: 0.75rem;
+    }
+
+    .store-header__logo img {
+        width: 96px;
+    }
+
+    .store-header__search {
+        order: 3;
+        width: 100%;
+        max-width: none;
+        flex: 1 0 100%;
+    }
+
+    .store-header__actions {
+        gap: 0.2rem;
+    }
+
+    .store-header__action,
+    .store-header__account summary {
+        min-height: 34px;
+        gap: 0.3rem;
+        padding: 0.4rem 0.5rem;
+        font-size: 0.72rem;
+    }
+
+    .store-header__action--icon span:not(.store-header__badge) {
+        display: none;
+    }
+
+    .store-header__action--text span {
+        display: inline;
+    }
+
+    .store-header__account summary {
+        max-width: 112px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

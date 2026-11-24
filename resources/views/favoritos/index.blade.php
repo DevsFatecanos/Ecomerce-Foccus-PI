@@ -9,13 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
+    @include('partials.accessibility-widget')
 </head>
-<script id="#userwayAccessibilityIcon" src = " https://cdn.userway.org/widget.js "  data-account = " wHedvuvp49 " ></script>
-    <style>
-    #userwayAccessibilityIcon {
-        margin-top: 500px;
-    }
-    </style>
 <body class="min-h-screen bg-slate-50 text-slate-900">
     <main class="mx-auto max-w-7xl px-4 py-10 md:py-14">
         <div class="mb-8 flex flex-wrap items-end justify-between gap-4">

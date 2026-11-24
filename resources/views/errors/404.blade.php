@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/store-footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/store-scale.css') }}">
+    @include('partials.accessibility-widget')
 </head>
 <body class="flex min-h-screen flex-col bg-gray-50 border-t-8 border-slate-500">
 
