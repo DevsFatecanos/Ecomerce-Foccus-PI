@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class CheckoutPaymentService
@@ -15,8 +16,12 @@ class CheckoutPaymentService
 
         $token = (string) config('services.mercado_pago.access_token', '');
 
+        // Fora do modo teste, sem credencial o pagamento e recusado: simular aqui
+        // aprovaria pedidos sem nenhuma cobranca.
         if ($token === '') {
-            return $this->simularPagamento($itens, $cliente, $metodoPreferido);
+            Log::error('Checkout: MERCADO_PAGO_ACCESS_TOKEN ausente com CHECKOUT_TEST_MODE desligado.');
+
+            throw new \RuntimeException('Mercado Pago nao configurado.');
         }
 
         if ($metodoPreferido === 'pix') {

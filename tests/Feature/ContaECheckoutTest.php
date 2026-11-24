@@ -90,6 +90,25 @@ class ContaECheckoutTest extends TestCase
         $this->assertGuest();
     }
 
+    public function test_password_reset_command_changes_user_password(): void
+    {
+        $admin = User::factory()->create(['email' => 'admin@loja.com', 'is_admin' => true]);
+
+        $this->artisan('usuario:senha', ['email' => 'admin@loja.com'])
+            ->expectsQuestion('Nova senha (minimo 8 caracteres)', 'NovaSenha#2026')
+            ->expectsQuestion('Confirme a nova senha', 'NovaSenha#2026')
+            ->assertExitCode(0);
+
+        $this->assertTrue(Hash::check('NovaSenha#2026', $admin->refresh()->password));
+
+        $this->artisan('usuario:senha', ['email' => 'admin@loja.com'])
+            ->expectsQuestion('Nova senha (minimo 8 caracteres)', 'OutraSenha#1')
+            ->expectsQuestion('Confirme a nova senha', 'diferente123')
+            ->assertExitCode(1);
+
+        $this->assertTrue(Hash::check('NovaSenha#2026', $admin->refresh()->password));
+    }
+
     public function test_admin_seeder_never_uses_a_fixed_password(): void
     {
         $this->seed(AdminUserSeeder::class);

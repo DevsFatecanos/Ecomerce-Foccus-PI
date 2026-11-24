@@ -48,3 +48,13 @@ services:
         value: "sync"
       - key: SESSION_DRIVER
         value: "file"
+      # Mercado Pago: token e URL do webhook sao preenchidos no painel do Render.
+      # Sem o token, com CHECKOUT_TEST_MODE=false, o checkout recusa o pagamento.
+      - key: MERCADO_PAGO_ACCESS_TOKEN
+        sync: false
+      - key: MERCADO_PAGO_WEBHOOK_URL
+        sync: false
+      - key: MERCADO_PAGO_SANDBOX
+        value: "false"
+      - key: CHECKOUT_TEST_MODE
+        value: "false"

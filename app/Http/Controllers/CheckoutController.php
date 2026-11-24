@@ -180,16 +180,7 @@ class CheckoutController extends Controller
 
         // Enquanto pendente, confirma o status real consultando o Mercado Pago.
         if ($pedido->status === 'pending' && $pedido->payment_id) {
-            $consulta = $this->checkoutPaymentService->consultarPagamento($pedido->payment_id);
-
-            if ($consulta && ($consulta['status'] ?? '') !== 'pending') {
-                $this->pedidoService->sincronizarStatus(
-                    $consulta['status'],
-                    $consulta['referencia'] ?? $pedido->referencia,
-                    $consulta['payment_id'] ?? $pedido->payment_id,
-                );
-                $pedido->refresh();
-            }
+            $this->sincronizarComMercadoPago($pedido, $pedido->payment_id);
         }
 
         return response()->json([
@@ -204,6 +195,31 @@ class CheckoutController extends Controller
                 ], false)
                 : null,
         ]);
+    }
+
+    /**
+     * Consulta o pagamento na API do Mercado Pago e atualiza o pedido. Ignora
+     * pagamentos de outro pedido (external_reference diferente).
+     */
+    private function sincronizarComMercadoPago(\App\Models\Pedido $pedido, string $paymentId): void
+    {
+        $consulta = $this->checkoutPaymentService->consultarPagamento($paymentId);
+
+        if (! $consulta || ($consulta['status'] ?? '') === 'pending') {
+            return;
+        }
+
+        if (($consulta['referencia'] ?? '') !== '' && $consulta['referencia'] !== $pedido->referencia) {
+            return;
+        }
+
+        $this->pedidoService->sincronizarStatus(
+            $consulta['status'],
+            $pedido->referencia,
+            $consulta['payment_id'] ?: $paymentId,
+            isset($consulta['valor']) ? (float) $consulta['valor'] : null,
+        );
+        $pedido->refresh();
     }
 
     /**
@@ -232,17 +248,15 @@ class CheckoutController extends Controller
             ? \App\Models\Pedido::where('referencia', $referencia)->first()
             : null;
 
-        if ($pedido && $pedido->status === 'pending' && $pedido->payment_id) {
-            $consulta = $this->checkoutPaymentService->consultarPagamento($pedido->payment_id);
+        // Cartao/boleto (Checkout Pro) voltam com o id do pagamento na URL
+        // (payment_id / collection_id); o pedido ainda nao o conhece. O id so
+        // serve para consultar a API: o status e o dono vem da resposta do MP.
+        $paymentIdRetorno = (string) ($request->get('payment_id') ?? $request->get('collection_id') ?? '');
+        $paymentIdRetorno = ctype_digit($paymentIdRetorno) ? $paymentIdRetorno : '';
+        $paymentId = $pedido?->payment_id ?: $paymentIdRetorno;
 
-            if ($consulta && ($consulta['status'] ?? '') !== 'pending') {
-                $this->pedidoService->sincronizarStatus(
-                    $consulta['status'],
-                    $consulta['referencia'] ?? $pedido->referencia,
-                    $consulta['payment_id'] ?? $pedido->payment_id,
-                );
-                $pedido->refresh();
-            }
+        if ($pedido && $pedido->status === 'pending' && $paymentId !== '') {
+            $this->sincronizarComMercadoPago($pedido, $paymentId);
         }
 
         // Fallback legado: pedidos do simulador local (sem payment_id) usam o

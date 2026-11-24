@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Mail\PedidoConfirmadoMail;
 use App\Models\Pedido;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PedidoService
@@ -80,15 +81,44 @@ class PedidoService
      * Sincroniza o status do pedido com o status real informado pelo Mercado Pago.
      * So dispara e-mail quando ha transicao para aprovado.
      */
-    public function sincronizarStatus(string $statusMp, ?string $referencia = null, ?string $paymentId = null): ?Pedido
-    {
-        $pedido = Pedido::query()
-            ->when($paymentId, fn ($q) => $q->where('payment_id', $paymentId))
-            ->when(! $paymentId && $referencia, fn ($q) => $q->where('referencia', $referencia))
-            ->first();
+    public function sincronizarStatus(
+        string $statusMp,
+        ?string $referencia = null,
+        ?string $paymentId = null,
+        ?float $valorPago = null,
+    ): ?Pedido {
+        $pedido = $paymentId ? Pedido::where('payment_id', $paymentId)->first() : null;
+
+        // Cartao/boleto (Checkout Pro): o pedido nasce sem payment_id, pois o
+        // pagamento so existe depois que o cliente paga no Mercado Pago. Nesse
+        // caso ele e localizado pela referencia (external_reference).
+        if (! $pedido && $referencia) {
+            $pedido = Pedido::where('referencia', $referencia)->first();
+
+            // Pedido ja vinculado a outro pagamento: so uma aprovacao (nova
+            // tentativa paga) pode substitui-lo; recusas antigas nao regridem o pedido.
+            if ($pedido && $paymentId && $pedido->payment_id && $statusMp !== 'approved') {
+                return $pedido;
+            }
+        }
 
         if (! $pedido) {
             return null;
+        }
+
+        if ($statusMp === 'approved' && $valorPago !== null && $valorPago + 0.01 < (float) $pedido->total) {
+            Log::warning('Pagamento aprovado com valor menor que o total do pedido; pedido nao aprovado.', [
+                'pedido' => $pedido->id,
+                'payment_id' => $paymentId,
+                'valor_pago' => $valorPago,
+                'total' => (float) $pedido->total,
+            ]);
+
+            return $pedido;
+        }
+
+        if ($paymentId && $pedido->payment_id !== $paymentId) {
+            $pedido->update(['payment_id' => $paymentId]);
         }
 
         $novoStatus = match ($statusMp) {

@@ -62,6 +62,7 @@ class MercadoPagoWebhookController extends Controller
             $consulta['status'],
             $consulta['referencia'] ?: null,
             $consulta['payment_id'] ?: null,
+            isset($consulta['valor']) ? (float) $consulta['valor'] : null,
         );
 
         if ($pedido === null) {
