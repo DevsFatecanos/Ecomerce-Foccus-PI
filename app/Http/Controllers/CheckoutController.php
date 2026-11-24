@@ -31,7 +31,7 @@ class CheckoutController extends Controller
             'itens' => $resumo['itens'],
             'total' => $resumo['total'],
             'quantidadeTotal' => $resumo['quantidadeTotal'],
-            'somenteTeste' => (bool) config('services.mercado_pago.test_mode_only', true),
+            'somenteTeste' => (bool) config('services.mercado_pago.test_mode_only', false),
         ]);
     }
 
@@ -262,7 +262,7 @@ class CheckoutController extends Controller
         // Fallback legado: pedidos do simulador local (sem payment_id) usam o
         // caminho antigo, mas somente quando o modo de teste esta ativo.
         if ($pedido && $pedido->payment_id === null
-            && (bool) config('services.mercado_pago.test_mode_only', true)
+            && (bool) config('services.mercado_pago.test_mode_only', false)
             && $request->string('status')->toString() === 'approved') {
             $this->pedidoService->marcarComoAprovadoPorReferencia($pedido->referencia);
             $pedido->refresh();
@@ -287,7 +287,7 @@ class CheckoutController extends Controller
             'referencia' => $referencia !== '' ? $referencia : 'N/A',
             'provedor' => $pedido?->provedor ?? ($request->get(
                 'provedor',
-                (bool) config('services.mercado_pago.test_mode_only', true) ? 'simulador_local' : 'mercado_pago',
+                (bool) config('services.mercado_pago.test_mode_only', false) ? 'simulador_local' : 'mercado_pago',
             )),
         ]);
     }

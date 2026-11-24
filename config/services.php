@@ -37,9 +37,10 @@ return [
 
     'mercado_pago' => [
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
-        'sandbox' => env('MERCADO_PAGO_SANDBOX', true),
+        'sandbox' => env('MERCADO_PAGO_SANDBOX', false),
         'webhook_url' => env('MERCADO_PAGO_WEBHOOK_URL'),
-        'test_mode_only' => env('CHECKOUT_TEST_MODE', true),
+        // Sem a variavel o modo teste fica DESLIGADO: producao nunca simula pagamentos por esquecimento.
+        'test_mode_only' => env('CHECKOUT_TEST_MODE', false),
     ],
 
 ];

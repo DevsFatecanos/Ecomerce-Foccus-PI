@@ -77,6 +77,45 @@ class MercadoPagoPagamentoTest extends TestCase
         $this->assertDatabaseCount('pedidos', 0);
     }
 
+    public function test_missing_test_mode_variable_uses_real_mercado_pago(): void
+    {
+        // Simula um servidor sem CHECKOUT_TEST_MODE definido, mas com token.
+        config([
+            'services.mercado_pago.access_token' => 'APP_USR-token-de-teste',
+            'services.mercado_pago.test_mode_only' => null,
+        ]);
+        Http::fake([
+            'api.mercadopago.com/v1/payments' => Http::response([
+                'id' => 4242,
+                'status' => 'pending',
+                'point_of_interaction' => ['transaction_data' => ['qr_code' => '000201PIX', 'qr_code_base64' => 'aGk=']],
+            ]),
+        ]);
+
+        $user = User::factory()->create();
+        $produto = Produto::create([
+            'nome' => 'Arroz', 'codigo_barras' => '7890000000002', 'descricao' => 'x',
+            'preco_antigo' => 30, 'preco_atual' => 25, 'preco_de_custo' => 15,
+            'quantidade' => 10, 'marca' => 'X', 'categoria' => 'Mercearia', 'destaque' => false, 'ativo' => true,
+        ]);
+
+        $this->actingAs($user)
+            ->withSession(['carrinho' => [$produto->id => 1]])
+            ->postJson(route('checkout.processar'), [
+                'nome' => $user->name,
+                'email' => $user->email,
+                'metodo_preferido' => 'pix',
+            ])
+            ->assertOk()
+            ->assertJson(['success' => true]);
+
+        $pedido = Pedido::firstOrFail();
+        $this->assertSame('mercado_pago', $pedido->provedor);
+        $this->assertSame('pending', $pedido->status);
+        $this->assertSame('4242', $pedido->payment_id);
+        Http::assertSent(fn ($request) => str_contains($request->url(), 'api.mercadopago.com/v1/payments'));
+    }
+
     public function test_webhook_approves_card_order_found_by_reference(): void
     {
         $this->pagamentoReal();

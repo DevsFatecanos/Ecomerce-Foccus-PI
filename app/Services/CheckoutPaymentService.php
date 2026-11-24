@@ -211,9 +211,9 @@ class CheckoutPaymentService
     private function somenteModoTeste(): bool
     {
         return filter_var(
-            config('services.mercado_pago.test_mode_only', true),
+            config('services.mercado_pago.test_mode_only', false),
             FILTER_VALIDATE_BOOL,
             FILTER_NULL_ON_FAILURE,
-        ) ?? true;
+        ) ?? false;
     }
 }
